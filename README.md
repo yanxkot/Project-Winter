@@ -1,7 +1,9 @@
-# Project-Winter
-:)
+### 2D Platformer Game
+<details>
+<summary>Info</summary>
 
-Netbeans IDE 17
-JDK 18
-Maven
-Jira
+- IDE: Netbeans IDE 17
+- Build System: Maven
+- Project Management app: Jira 
+- Java Version: JDK 18
+</details>
