@@ -2,7 +2,7 @@
 <details>
 <summary>Info</summary>
 
-- IDE: Netbeans IDE 17
+- IDE: IntelliJ IDEA 2023.1.1
 - Build System: Maven
 - Project Management app: Jira 
 - Java Version: JDK 18
