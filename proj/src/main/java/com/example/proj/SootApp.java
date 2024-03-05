@@ -3,6 +3,8 @@ package com.example.proj;
 import com.almasb.fxgl.app.GameApplication;
 import com.almasb.fxgl.app.GameSettings;
 import com.almasb.fxgl.dsl.FXGL;
+import com.almasb.fxgl.input.Input;
+import com.almasb.fxgl.input.UserAction;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -13,11 +15,24 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 public class SootApp extends GameApplication {
+
     @Override
     protected void initSettings(GameSettings gameSettings) {
-
+        gameSettings.setWidth(500);
+        gameSettings.setHeight(300);
+        gameSettings.setTitle("Soot(sin)");
     }
     protected void initInput(){
+        /*
+        Input input = FXGL.getInput();
+        input.addAction(new UserAction("right"){
+            @Override
+            protected void onAction(){
+
+            }
+        })
+
+         */
 
     }
     protected void initGame(){
