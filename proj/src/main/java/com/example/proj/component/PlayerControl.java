@@ -9,13 +9,11 @@ public class PlayerControl extends Component {
     private double speed;
 
     private void left(){
-
-        
+        position.translateX(-5 * speed);
     }
 
     private void right(){
-
-
+        position.translateX(5 * speed);
     }
 
     private void jump(){
@@ -24,5 +22,8 @@ public class PlayerControl extends Component {
     }
 
 
-    public void onUpdate(double tpf){}
+    @Override
+    public void onUpdate(double tpf){
+        speed = tpf * 60;
+    }
 }

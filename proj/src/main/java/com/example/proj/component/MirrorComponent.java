@@ -6,6 +6,8 @@ import com.almasb.fxgl.physics.PhysicsComponent;
 public class MirrorComponent extends Component {
     private PhysicsComponent physics;
     private TransformComponent position;
+
+    @Override
     public void onUpdate(double tpf){
 
     }
