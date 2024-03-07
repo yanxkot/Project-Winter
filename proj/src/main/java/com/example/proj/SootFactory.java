@@ -22,6 +22,7 @@ public class SootFactory implements EntityFactory {
     public Entity newPlayer(SpawnData data){
         return FXGL.entityBuilder(data)
                 .type(SootType.PLAYER)
+                .view("file:proj/src/main/resources/Assets/Texture/sootyyy.gif")
                 .bbox(new HitBox(BoundingShape.box(20,20)))
                 .collidable()
                 .build();
