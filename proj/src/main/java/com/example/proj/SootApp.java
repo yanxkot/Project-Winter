@@ -3,16 +3,13 @@ package com.example.proj;
 import com.almasb.fxgl.app.GameApplication;
 import com.almasb.fxgl.app.GameSettings;
 import com.almasb.fxgl.dsl.FXGL;
-import com.almasb.fxgl.input.Input;
-import com.almasb.fxgl.input.UserAction;
-import javafx.fxml.FXMLLoader;
+import com.almasb.fxgl.entity.Entity;
+import com.almasb.fxgl.physics.CollisionHandler;
+import com.almasb.fxgl.physics.PhysicsWorld;
 import javafx.geometry.Pos;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
-
-import java.io.IOException;
 
 public class SootApp extends GameApplication {
 
@@ -22,26 +19,44 @@ public class SootApp extends GameApplication {
         gameSettings.setHeight(300);
         gameSettings.setTitle("Soot(sin)");
     }
+    @Override
     protected void initInput(){
-        /*
-        Input input = FXGL.getInput();
-        input.addAction(new UserAction("right"){
-            @Override
-            protected void onAction(){
 
-            }
-        })
+       FXGL.onKey(KeyCode.RIGHT, "right",()->getPlayer().getComponent(PlayerControl.class).right());
+       FXGL.onKey(KeyCode.LEFT, "left",()->getPlayer().getComponent(PlayerControl.class).left());
+
+
+
+    }
+    @Override
+    protected void initGame(){
+        /*
+        FXGL.getGameWorld().addEntityFactory(new SootFactory());
+        initLevel()
+*/
+    }
+    private void initLevel(){
+        /*
+        //copied as example:
+        FXGL.spawn("Background", new SpawnData(0, 0).put("width", 500).put("height", 300));
+        FXGL.setLevelFromMap("level" + FXGL.geti("level") + ".tmx");
 
          */
-
     }
-    protected void initGame(){
-
-    }
+    @Override
     protected void initPhysics(){
+        PhysicsWorld physics = FXGL.getPhysicsWorld();
+        physics.setGravity(0,0);//idk how it works
+        physics.addCollisionHandler(new CollisionHandler(SootType.PLAYER,SootType.PLATFORM) {
+            @Override
+            protected void onCollision(Entity player, Entity platform) {
+                player.setY(platform.getY());
+            }
+        });
 
     }
 
+    @Override
     protected void initUI(){
         Button button = new Button("Hi");
         button.setAlignment(Pos.CENTER);
@@ -50,7 +65,7 @@ public class SootApp extends GameApplication {
         FXGL.getGameScene().addUINode(vBox);
 
     }
-
+/*
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(SootApp.class.getResource("hello-view.fxml"));
 
@@ -60,7 +75,10 @@ public class SootApp extends GameApplication {
         stage.show();
         System.out.println(1);
     }
-
+*/
+    private static Entity getPlayer(){
+        return FXGL.getGameWorld().getSingleton(SootType.PLAYER);
+    }
     public static void main(String[] args) {
         launch(args);
     }

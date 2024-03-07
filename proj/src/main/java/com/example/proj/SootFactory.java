@@ -1,12 +1,30 @@
 package com.example.proj;
+import com.almasb.fxgl.dsl.FXGL;
+import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.entity.EntityFactory;
 import com.almasb.fxgl.entity.SpawnData;
 import com.almasb.fxgl.entity.Spawns;
-public class SootFactory implements EntityFactory {
-    public void newPlatform(Spawns data){
+import com.almasb.fxgl.physics.BoundingShape;
+import com.almasb.fxgl.physics.HitBox;
+import com.almasb.fxgl.physics.PhysicsComponent;
 
+public class SootFactory implements EntityFactory {
+    @Spawns("Platform")
+    public Entity newPlatform(SpawnData data){
+    return FXGL.entityBuilder(data)
+            .type(SootType.PLATFORM)
+            .bbox(new HitBox(BoundingShape.box(data.<Integer>get("width"),data.<Integer>get("height"))))
+            .with(new PhysicsComponent())
+            .collidable()
+            .build();
     }
-    public void newPlayer(Spawns data){
+    @Spawns("Player")
+    public Entity newPlayer(SpawnData data){
+        return FXGL.entityBuilder(data)
+                .type(SootType.PLAYER)
+                .bbox(new HitBox(BoundingShape.box(20,20)))
+                .collidable()
+                .build();
 
     }
 
