@@ -8,11 +8,11 @@ public class PlayerControl extends Component {
     private TransformComponent position;
     private double speed;
 
-    private void left(){
+    public void left(){
         position.translateX(-5 * speed);
     }
 
-    private void right(){
+    public void right(){
         position.translateX(5 * speed);
     }
 

@@ -6,13 +6,23 @@ import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.physics.CollisionHandler;
 import com.almasb.fxgl.physics.PhysicsWorld;
+import com.example.proj.component.PlayerControl;
+import javafx.application.Platform;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.VBox;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+
+import java.io.IOException;
 import java.util.Map;
+
+import static com.almasb.fxgl.dsl.FXGL.*;
 
 public class SootApp extends GameApplication {
     @Override
@@ -25,18 +35,37 @@ public class SootApp extends GameApplication {
     @Override
     protected void initInput(){
 
-       //FXGL.onKey(KeyCode.RIGHT, "right",()->getPlayer().getComponent(PlayerControl.class).right());
-       //FXGL.onKey(KeyCode.LEFT, "left",()->getPlayer().getComponent(PlayerControl.class).left());
+       onKey(KeyCode.RIGHT, "right",()->getPlayer().getComponent(PlayerControl.class).right());
+       onKey(KeyCode.LEFT, "left",()->getPlayer().getComponent(PlayerControl.class).left());
 
     }
 
     @Override
     protected void initGame(){
-        /*
-        FXGL.getGameWorld().addEntityFactory(new SootFactory());
-        initLevel()
 
-*/
+
+        getGameWorld().addEntityFactory(new SootFactory());
+        player=null;
+        initLevel();
+        player = spawn("Player", 50, 50);
+        //getGameWorld().spawn("platform", 50, 50);
+
+        set("Player", player);
+        //getGameWorld().setLevelFromMap("1plat.tmx");
+        //getGameWorld().setLevel(level);
+
+       Level level = FXGL.setLevelFromMap("tmx/1plat.tmx");
+
+
+       // Level level = setLevelFromMap("file:proj/main/java/resources/assets/tmx/1plat.tmx");
+
+
+        //getGameWorld().setLevel(level);
+      //  FXGL.setLevelFromMap("1plat.tmx");
+
+
+
+
     }
 
     @Override
@@ -58,10 +87,11 @@ public class SootApp extends GameApplication {
 
     @Override
     protected void initPhysics(){
-        PhysicsWorld physics = FXGL.getPhysicsWorld();
+        PhysicsWorld physics = getPhysicsWorld();
 
-        //TODO: build1 @Olive (we need to decide on a pixel to meter scale)
-        physics.setGravity(0, 0);
+        //one(1) meter ≈ 38 pixels
+        //9.81m/s^2 ≈ 372.78 pixels
+        physics.setGravity(0, 372.78);
 
         physics.addCollisionHandler(new CollisionHandler(SootType.PLAYER, SootType.PLATFORM) {
             @Override
@@ -104,7 +134,7 @@ public class SootApp extends GameApplication {
         button.setAlignment(Pos.CENTER);
         VBox vBox = new VBox(button);
         vBox.setAlignment(Pos.CENTER);
-        FXGL.getGameScene().addUINode(sootV);
+        //getGameScene().addUINode(sootV);
 
     }
 /*
@@ -119,7 +149,7 @@ public class SootApp extends GameApplication {
     }
 */
     private static Entity getPlayer(){
-        return FXGL.getGameWorld().getSingleton(SootType.PLAYER);
+        return getGameWorld().getSingleton(SootType.PLAYER);
     }
     public static void main(String[] args) {
         launch(args);
