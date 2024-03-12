@@ -4,6 +4,7 @@ import com.almasb.fxgl.app.GameApplication;
 import com.almasb.fxgl.app.GameSettings;
 import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.entity.Entity;
+import com.almasb.fxgl.entity.level.Level;
 import com.almasb.fxgl.physics.CollisionHandler;
 import com.almasb.fxgl.physics.PhysicsWorld;
 import com.example.proj.component.PlayerControl;
@@ -15,6 +16,7 @@ import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -25,6 +27,13 @@ import java.util.Map;
 import static com.almasb.fxgl.dsl.FXGL.*;
 
 public class SootApp extends GameApplication {
+
+
+    int level;
+    int life;
+    private Entity player;
+
+
     @Override
     protected void initSettings(GameSettings gameSettings) {
         gameSettings.setWidth(500);
@@ -68,10 +77,15 @@ public class SootApp extends GameApplication {
 
     }
 
-    @Override
-    protected void initGameVars(Map<String, Object> vars) {
-        vars.put("level", 1);
-        vars.put("lives", 3);
+
+
+
+
+
+    protected void initGameVars() {
+        level = 1;
+        life = 3;
+
 
     }
 
@@ -98,6 +112,7 @@ public class SootApp extends GameApplication {
             protected void onCollision(Entity player, Entity platform) {
 
                 player.setY(platform.getY());
+                popUp();
             }
 
 
@@ -107,7 +122,7 @@ public class SootApp extends GameApplication {
             @Override
             protected void onCollision(Entity player, Entity danger) {
 
-                FXGL.inc("lives", -1);
+                life--;
             }
 
         });
@@ -137,7 +152,31 @@ public class SootApp extends GameApplication {
         //getGameScene().addUINode(sootV);
 
     }
-/*
+
+
+
+    protected void popUp(){
+
+
+        Stage taskStage = new Stage();
+        taskStage.initModality(Modality.APPLICATION_MODAL);
+        taskStage.setTitle("door");
+
+
+        StackPane taskLayout = new StackPane();
+        taskLayout.getChildren().add(new Button("done"));
+
+        Scene taskScene = new Scene(taskLayout, 250, 150);
+        taskStage.setScene(taskScene);
+
+
+        taskStage.showAndWait();
+
+
+
+
+    }
+
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(SootApp.class.getResource("hello-view.fxml"));
 
@@ -147,7 +186,7 @@ public class SootApp extends GameApplication {
         stage.show();
         System.out.println(1);
     }
-*/
+
     private static Entity getPlayer(){
         return getGameWorld().getSingleton(SootType.PLAYER);
     }

@@ -8,6 +8,7 @@ import com.almasb.fxgl.physics.BoundingShape;
 import com.almasb.fxgl.physics.HitBox;
 import com.almasb.fxgl.physics.PhysicsComponent;
 
+
 public class SootFactory implements EntityFactory {
     @Spawns("platform")
     public Entity newPlatform(SpawnData data){
@@ -23,7 +24,7 @@ public class SootFactory implements EntityFactory {
     public Entity newPlayer(SpawnData data){
         return FXGL.entityBuilder(data)
                 .type(SootType.PLAYER)
-                .view("file:proj/src/main/resources/Assets/Texture/sootyyy.gif")
+                .view("file:proj/src/main/resources/Assets/Texture/finalSOOT.gif")
                 .bbox(new HitBox(BoundingShape.box(20,20)))
                 .collidable()
                 .build();

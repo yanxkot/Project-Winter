@@ -1,9 +1,9 @@
-module com.example.proj {
+open module com.example.proj.main {
     requires javafx.controls;
     requires javafx.fxml;
 
     requires com.almasb.fxgl.all;
 
-    opens com.example.proj to javafx.fxml;
+
     exports com.example.proj;
 }
