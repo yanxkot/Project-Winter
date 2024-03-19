@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SootFactory.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">proj</a> &gt; <a href="index.source.html" class="el_package">com.example.proj</a> &gt; <span class="el_source">SootFactory.java</span></div><h1>SootFactory.java</h1><pre class="source lang-java linenums">package com.example.proj;
+import com.almasb.fxgl.dsl.FXGL;
+import com.almasb.fxgl.entity.Entity;
+import com.almasb.fxgl.entity.EntityFactory;
+import com.almasb.fxgl.entity.SpawnData;
+import com.almasb.fxgl.entity.Spawns;
+import com.almasb.fxgl.physics.BoundingShape;
+import com.almasb.fxgl.physics.HitBox;
+import com.almasb.fxgl.physics.PhysicsComponent;
+
+/**
+ *
+ */
+<span class="nc" id="L14">public class SootFactory implements EntityFactory {</span>
+    @Spawns(&quot;Platform&quot;)
+
+    /**
+     * This method spawns an entity of type Platform
+     */
+    public Entity newPlatform(SpawnData data){
+<span class="nc" id="L21">    return FXGL.entityBuilder(data)</span>
+<span class="nc" id="L22">            .from(data)</span>
+<span class="nc" id="L23">            .type(SootType.PLATFORM)</span>
+<span class="nc" id="L24">            .bbox(new HitBox(BoundingShape.box(data.&lt;Integer&gt;get(&quot;width&quot;),data.&lt;Integer&gt;get(&quot;height&quot;))))</span>
+<span class="nc" id="L25">            .with(new PhysicsComponent())</span>
+<span class="nc" id="L26">            .collidable()</span>
+<span class="nc" id="L27">            .build();</span>
+    }
+
+    /**
+     * This method 
+     * @param data
+     * @return
+     */
+    @Spawns(&quot;Player&quot;)
+    public Entity newPlayer(SpawnData data){
+<span class="nc" id="L37">        return FXGL.entityBuilder(data)</span>
+<span class="nc" id="L38">                .type(SootType.PLAYER)</span>
+<span class="nc" id="L39">                .view(&quot;finalSOOT.gif&quot;)</span>
+<span class="nc" id="L40">                .bbox(new HitBox(BoundingShape.box(20,20)))</span>
+<span class="nc" id="L41">                .collidable()</span>
+<span class="nc" id="L42">                .build();</span>
+    }
+
+    /**
+     *
+     * @param data
+     */
+    public void newObstacle(Spawns data){
+
+<span class="nc" id="L51">    }</span>
+
+    /**
+     *
+     * @param data
+     */
+    public void newDoor(Spawns data){
+
+<span class="nc" id="L59">    }</span>
+
+    /**
+     *
+     * @param data
+     */
+    public void newLevel(Spawns data){
+
+<span class="nc" id="L67">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

@@ -1,0 +1,14 @@
+GROUP,PACKAGE,CLASS,INSTRUCTION_MISSED,INSTRUCTION_COVERED,BRANCH_MISSED,BRANCH_COVERED,LINE_MISSED,LINE_COVERED,COMPLEXITY_MISSED,COMPLEXITY_COVERED,METHOD_MISSED,METHOD_COVERED
+proj,com.example.proj,SootApp.new CollisionHandler() {...},6,0,0,0,2,0,2,0,2,0
+proj,com.example.proj,SootApp.new CollisionHandler() {...},16,0,0,0,3,0,2,0,2,0
+proj,com.example.proj,SootApp.new CollisionHandler() {...},16,0,0,0,4,0,2,0,2,0
+proj,com.example.proj,SootFactory,57,0,0,0,17,0,6,0,6,0
+proj,com.example.proj,SootApp,199,0,0,0,51,0,14,0,14,0
+proj,com.example.proj,SootType,75,0,0,0,13,0,1,0,1,0
+proj,com.example.proj,Questions,9,0,0,0,7,0,7,0,7,0
+proj,com.example.proj,HelloController,8,0,0,0,3,0,2,0,2,0
+proj,com.example.proj.component,SpringComponent,4,0,0,0,2,0,2,0,2,0
+proj,com.example.proj.component,LensesComponent,4,0,0,0,2,0,2,0,2,0
+proj,com.example.proj.component,PlayerControl,26,0,0,0,8,0,5,0,5,0
+proj,com.example.proj.component,TribuchetComponent,4,0,0,0,2,0,2,0,2,0
+proj,com.example.proj.component,MirrorComponent,4,0,0,0,2,0,2,0,2,0

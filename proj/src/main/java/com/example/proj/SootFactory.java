@@ -12,7 +12,9 @@ import com.almasb.fxgl.physics.box2d.dynamics.BodyType;
 import com.almasb.fxgl.physics.box2d.dynamics.FixtureDef;
 import com.example.proj.component.PlayerControl;
 
-
+/**
+ *
+ */
 public class SootFactory implements EntityFactory {
     @Spawns("Platform")
 
@@ -28,6 +30,12 @@ public class SootFactory implements EntityFactory {
             .collidable()
             .build();
     }
+
+    /**
+     * This method spawns an entity of type Player
+     * @param data
+     * @return
+     */
     @Spawns("Player")
     public Entity newPlayer(SpawnData data){
         PhysicsComponent physics = new PhysicsComponent();
@@ -43,12 +51,26 @@ public class SootFactory implements EntityFactory {
                 .build();
     }
 
+    /**
+     * This method spawns an entity of type Obstacle
+     * @param data
+     */
     public void newObstacle(Spawns data){
 
     }
+
+    /**
+     * This method spawns an entity of type Door
+     * @param data
+     */
     public void newDoor(Spawns data){
 
     }
+
+    /**
+     * This method spawns an entity of type Level
+     * @param data
+     */
     public void newLevel(Spawns data){
 
     }

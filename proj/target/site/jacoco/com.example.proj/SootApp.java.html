@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SootApp.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">proj</a> &gt; <a href="index.source.html" class="el_package">com.example.proj</a> &gt; <span class="el_source">SootApp.java</span></div><h1>SootApp.java</h1><pre class="source lang-java linenums">package com.example.proj;
+
+import com.almasb.fxgl.app.GameApplication;
+import com.almasb.fxgl.app.GameSettings;
+import com.almasb.fxgl.dsl.FXGL;
+import com.almasb.fxgl.entity.Entity;
+import com.almasb.fxgl.entity.level.Level;
+import com.almasb.fxgl.physics.CollisionHandler;
+import com.almasb.fxgl.physics.PhysicsWorld;
+import com.example.proj.component.PlayerControl;
+import javafx.application.Platform;
+import javafx.fxml.FXMLLoader;
+import javafx.geometry.Pos;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+
+import java.io.IOException;
+import java.util.Map;
+
+import static com.almasb.fxgl.dsl.FXGL.*;
+
+<span class="nc" id="L29">public class SootApp extends GameApplication {</span>
+
+    int level;
+    int life;
+    private Entity player;
+
+    @Override
+    /**
+     * @param gameSettings this is the main window of the game
+     * This method initializes the width, height and title of the game.
+     */
+    protected void initSettings(GameSettings gameSettings) {
+<span class="nc" id="L41">        gameSettings.setWidth(500);</span>
+<span class="nc" id="L42">        gameSettings.setHeight(300);</span>
+<span class="nc" id="L43">        gameSettings.setTitle(&quot;Soot(sin)&quot;);</span>
+<span class="nc" id="L44">    }</span>
+
+    @Override
+    /**
+     * This method initialise the controls of the main character. It assigns a key to a movement
+     */
+    protected void initInput(){
+<span class="nc" id="L51">       onKey(KeyCode.RIGHT, &quot;right&quot;,()-&gt;getPlayer().getComponent(PlayerControl.class).right());</span>
+<span class="nc" id="L52">       onKey(KeyCode.LEFT, &quot;left&quot;,()-&gt;getPlayer().getComponent(PlayerControl.class).left());</span>
+<span class="nc" id="L53">    }</span>
+
+    @Override
+    /**
+     * This method initializes a level in the game by setting a map per each level. The character is also initialized in this method.
+     */
+    protected void initGame(){
+<span class="nc" id="L60">        getGameWorld().addEntityFactory(new SootFactory());</span>
+<span class="nc" id="L61">        player=null;</span>
+<span class="nc" id="L62">        initLevel();</span>
+<span class="nc" id="L63">        player = spawn(&quot;Player&quot;, 50, 50);</span>
+        //getGameWorld().spawn(&quot;platform&quot;, 50, 50);
+<span class="nc" id="L65">        set(&quot;Player&quot;, player);</span>
+        //getGameWorld().setLevelFromMap(&quot;1plat.tmx&quot;);
+        //getGameWorld().setLevel(level);
+        //TODO: make TileMap from version 1.9.0. because of error &quot;TiledMap generated from 1.10.2. Supported version: 1.9.0.&quot;
+<span class="nc" id="L69">        Level level = FXGL.setLevelFromMap(&quot;tmx/Plat1.9.0.tmx&quot;);</span>
+<span class="nc" id="L70">    }</span>
+
+    /**
+     * This method initializes the game variables such as life, level, .... etc
+     */
+    protected void initGameVars() {
+<span class="nc" id="L76">        level = 1;</span>
+<span class="nc" id="L77">        life = 3;</span>
+<span class="nc" id="L78">    }</span>
+
+    //TODO: build2 @
+    /**
+     * this method imports the corresponding tmx file from the resources file to the correct level.
+     *
+     */
+    private void initLevel(){
+        /*
+        //copied as example:
+        FXGL.spawn(&quot;Background&quot;, new SpawnData(0, 0).put(&quot;width&quot;, 500).put(&quot;height&quot;, 300));
+        FXGL.setLevelFromMap(&quot;level&quot; + FXGL.geti(&quot;level&quot;) + &quot;.tmx&quot;);
+         */
+<span class="nc" id="L91">    }</span>
+
+    @Override
+    /**
+     * This method initializes the game's physics such as gravity. It also handles collision between two entities.
+     */
+    protected void initPhysics(){
+<span class="nc" id="L98">        PhysicsWorld physics = getPhysicsWorld();</span>
+        //one(1) meter ≈ 38 pixels
+        //9.81m/s^2 ≈ 372.78 pixels
+<span class="nc" id="L101">        physics.setGravity(0, 372.78);</span>
+<span class="nc" id="L102">        physics.addCollisionHandler(new CollisionHandler(SootType.PLAYER, SootType.PLATFORM) {</span>
+            @Override
+            protected void onCollision(Entity player, Entity platform) {
+
+<span class="nc" id="L106">                player.setY(platform.getY());</span>
+<span class="nc" id="L107">                popUp();</span>
+<span class="nc" id="L108">            }</span>
+        });
+
+<span class="nc" id="L111">        physics.addCollisionHandler(new CollisionHandler(SootType.PLAYER, SootType.DANGER) {</span>
+            @Override
+            protected void onCollision(Entity player, Entity danger) {
+<span class="nc" id="L114">                life--;</span>
+<span class="nc" id="L115">            }</span>
+        });
+
+<span class="nc" id="L118">        physics.addCollisionHandler(new CollisionHandler(SootType.PLAYER,SootType.DOOR) {</span>
+            @Override
+            protected void onCollision(Entity player, Entity door) {
+
+<span class="nc" id="L122">            }</span>
+        });
+<span class="nc" id="L124">    }</span>
+
+    @Override
+    /**
+     * This method imports a gif file to then initialize to the character.
+     */
+    protected void initUI(){
+<span class="nc" id="L131">        Image soot = new Image(&quot;file:proj/src/main/resources/Assets/Texture/sootyyy.gif&quot;);</span>
+<span class="nc" id="L132">        ImageView sootV = new ImageView(soot);</span>
+<span class="nc" id="L133">        Button button = new Button(&quot;Hi&quot;);</span>
+<span class="nc" id="L134">        button.setAlignment(Pos.CENTER);</span>
+<span class="nc" id="L135">        VBox vBox = new VBox(button);</span>
+<span class="nc" id="L136">        vBox.setAlignment(Pos.CENTER);</span>
+        //getGameScene().addUINode(sootV);
+<span class="nc" id="L138">    }</span>
+
+    /**
+     * This method opens a Stage
+     */
+    protected void popUp(){
+<span class="nc" id="L144">        Stage taskStage = new Stage();</span>
+<span class="nc" id="L145">        taskStage.initModality(Modality.APPLICATION_MODAL);</span>
+<span class="nc" id="L146">        taskStage.setTitle(&quot;door&quot;);</span>
+
+<span class="nc" id="L148">        StackPane taskLayout = new StackPane();</span>
+<span class="nc" id="L149">        taskLayout.getChildren().add(new Button(&quot;done&quot;));</span>
+
+<span class="nc" id="L151">        Scene taskScene = new Scene(taskLayout, 250, 150);</span>
+<span class="nc" id="L152">        taskStage.setScene(taskScene);</span>
+
+<span class="nc" id="L154">        taskStage.showAndWait();</span>
+<span class="nc" id="L155">    }</span>
+
+    /**
+     * This method runs the application
+     * @param stage
+     * @throws IOException
+     */
+    public void start(Stage stage) throws IOException {
+<span class="nc" id="L163">        FXMLLoader fxmlLoader = new FXMLLoader(SootApp.class.getResource(&quot;hello-view.fxml&quot;));</span>
+
+<span class="nc" id="L165">        Scene scene = new Scene(fxmlLoader.load(), 320, 240);</span>
+<span class="nc" id="L166">        stage.setTitle(&quot;Hello!&quot;);</span>
+<span class="nc" id="L167">        stage.setScene(scene);</span>
+<span class="nc" id="L168">        stage.show();</span>
+<span class="nc" id="L169">        System.out.println(1);</span>
+<span class="nc" id="L170">    }</span>
+
+    /**
+     * This method returns the player
+     * @return
+     */
+    private static Entity getPlayer(){
+<span class="nc" id="L177">        return getGameWorld().getSingleton(SootType.PLAYER);</span>
+    }
+
+    /**
+     *
+     * @param args
+     */
+    public static void main(String[] args) {
+<span class="nc" id="L185">        launch(args);</span>
+<span class="nc" id="L186">    }</span>
+
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>
