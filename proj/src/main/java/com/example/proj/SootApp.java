@@ -57,22 +57,12 @@ public class SootApp extends GameApplication {
         player=null;
         initLevel();
         player = spawn("Player", 50, 50);
+        player.addComponent(new PlayerControl());
         //getGameWorld().spawn("platform", 50, 50);
 
         set("Player", player);
         //getGameWorld().setLevelFromMap("1plat.tmx");
         //getGameWorld().setLevel(level);
-
-       Level level = FXGL.setLevelFromMap("tmx/1plat.tmx");
-
-
-       // Level level = setLevelFromMap("file:proj/main/java/resources/assets/tmx/1plat.tmx");
-
-
-        //getGameWorld().setLevel(level);
-      //  FXGL.setLevelFromMap("1plat.tmx");
-
-
 
 
     }
@@ -91,6 +81,7 @@ public class SootApp extends GameApplication {
 
     //TODO: build2 @
     private void initLevel(){
+        Level level = FXGL.setLevelFromMap("tmx/Plat1.9.0.tmx");
         /*
         //copied as example:
         FXGL.spawn("Background", new SpawnData(0, 0).put("width", 500).put("height", 300));
@@ -153,8 +144,9 @@ public class SootApp extends GameApplication {
 
     }
 
-
-
+    /**
+     * This method opens a Stage
+     */
     protected void popUp(){
 
 
