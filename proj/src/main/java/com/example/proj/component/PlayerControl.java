@@ -11,6 +11,8 @@ public class PlayerControl extends Component {
     /**
      * this method determines the increment when player presses left
      */
+
+
     public void left(){
         physics.setVelocityX(-50);
     }
@@ -25,8 +27,12 @@ public class PlayerControl extends Component {
     /**
      * this method determines the increment when player presses up
      */
-    private void jump(){
+    public void jump(){
+        physics.setVelocityY(-100);
+    }
 
+    public void stop(){
+        physics.setVelocityX(0);
     }
 
     @Override

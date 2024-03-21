@@ -2,6 +2,7 @@ package com.example.proj;
 
 import com.almasb.fxgl.app.GameApplication;
 import com.almasb.fxgl.app.GameSettings;
+import com.almasb.fxgl.app.scene.GameView;
 import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.entity.level.Level;
@@ -12,6 +13,7 @@ import com.almasb.fxgl.input.UserAction;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
@@ -33,17 +35,19 @@ public class SootApp extends GameApplication {
     int level;
     int life;
     private Entity player;
+   // Stage taskStage = new Stage();
+    //Scene taskScene;
 
-    @Override
+
+    @Override()
     /**
      * @param gameSettings this is the main window of the game
      * This method initializes the width, height and title of the game.
      */
     protected void initSettings(GameSettings gameSettings) {
-        gameSettings.setWidth(500);
-        gameSettings.setHeight(300);
+        gameSettings.setWidth(450);
+        gameSettings.setHeight(360);
         gameSettings.setTitle("Soot(sin)");
-
     }
 
     @Override
@@ -97,7 +101,7 @@ public class SootApp extends GameApplication {
      */
     protected void initGame(){
         getGameWorld().addEntityFactory(new SootFactory());
-        player=null;
+        player = null;
         initLevel();
         player = spawn("Player", 50, 50);
         player.addComponent(new PlayerControl());
@@ -105,8 +109,6 @@ public class SootApp extends GameApplication {
         set("Player", player);
         //getGameWorld().setLevelFromMap("1plat.tmx");
         //getGameWorld().setLevel(level);
-
-
     }
 
     /**
@@ -146,8 +148,8 @@ public class SootApp extends GameApplication {
             @Override
             protected void onCollision(Entity player, Entity platform) {
 
-                player.setY(platform.getY());
-                popUp();
+
+
             }
         });
 
@@ -160,8 +162,10 @@ public class SootApp extends GameApplication {
 
         physics.addCollisionHandler(new CollisionHandler(SootType.PLAYER, SootType.DOOR) {
             @Override
-            protected void onCollision(Entity player, Entity door) {
-                popUp();
+            protected void onCollisionBegin(Entity player, Entity door) {
+                //to verify collision
+                System.out.println("door");
+
             }
         });
         physics.addCollisionHandler(new CollisionHandler(SootType.PLAYER, SootType.OBSTACLE) {
@@ -174,10 +178,11 @@ public class SootApp extends GameApplication {
         });
     }
 
-    @Override
+
     /**
      * This method imports a gif file to then initialize to the character.
      */
+    @Override
     protected void initUI(){
         Image soot = new Image("file:proj/src/main/resources/Assets/Texture/sootyyy.gif");
         ImageView sootV = new ImageView(soot);
@@ -191,19 +196,17 @@ public class SootApp extends GameApplication {
     /**
      * This method opens a Stage
      */
-    protected void popUp(){
-        Stage taskStage = new Stage();
-        taskStage.initModality(Modality.APPLICATION_MODAL);
-        taskStage.setTitle("door");
+     protected void popUp(){
+         Node node  = new StackPane();
+         Button b = new Button("hey");
 
-        StackPane taskLayout = new StackPane();
-        taskLayout.getChildren().add(new Button("done"));
+         GameView view  = new GameView(node,5);
+         getGameScene().addGameView(view);
 
-        Scene taskScene = new Scene(taskLayout, 250, 150);
-        taskStage.setScene(taskScene);
 
-        taskStage.showAndWait();
-    }
+
+      }
+
 
     /**
      * This method runs the application
