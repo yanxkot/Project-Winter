@@ -16,11 +16,12 @@ import com.example.proj.component.PlayerControl;
  *
  */
 public class SootFactory implements EntityFactory {
-    @Spawns("Platform")
+
 
     /**
      * This method spawns an entity of type Platform
      */
+    @Spawns("Platform")
     public Entity newPlatform(SpawnData data){
     return FXGL.entityBuilder(data)
             .from(data)
@@ -55,15 +56,30 @@ public class SootFactory implements EntityFactory {
      * This method spawns an entity of type Obstacle
      * @param data
      */
-    public void newObstacle(Spawns data){
-
+    @Spawns("Obstacle")
+    public Entity newObstacle(SpawnData data){
+        return FXGL.entityBuilder(data)
+                .from(data)
+                .type(SootType.OBSTACLE)
+                .bbox(new HitBox(BoundingShape.box(data.<Integer>get("width"),data.<Integer>get("height"))))
+                .with(new PhysicsComponent())
+                .collidable()
+                .build();
     }
 
     /**
      * This method spawns an entity of type Door
      * @param data
      */
-    public void newDoor(Spawns data){
+    @Spawns("Door")
+    public Entity newDoor(SpawnData data){
+        return FXGL.entityBuilder(data)
+                .from(data)
+                .type(SootType.DOOR)
+                .bbox(new HitBox(BoundingShape.box(data.<Integer>get("width"), data.<Integer>get("height"))))
+                .with(new PhysicsComponent())
+                .collidable()
+                .build();
 
     }
 
@@ -71,6 +87,7 @@ public class SootFactory implements EntityFactory {
      * This method spawns an entity of type Level
      * @param data
      */
+    //TODO:Build2
     public void newLevel(Spawns data){
 
     }

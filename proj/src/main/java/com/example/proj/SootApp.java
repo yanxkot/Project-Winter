@@ -8,6 +8,7 @@ import com.almasb.fxgl.entity.level.Level;
 import com.almasb.fxgl.physics.CollisionHandler;
 import com.almasb.fxgl.physics.PhysicsWorld;
 import com.example.proj.component.PlayerControl;
+import com.almasb.fxgl.input.UserAction;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
@@ -20,6 +21,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+
 
 import java.io.IOException;
 import java.util.Map;
@@ -49,8 +51,44 @@ public class SootApp extends GameApplication {
      * This method initialise the controls of the main character. It assigns a key to a movement
      */
     protected void initInput(){
-       onKey(KeyCode.RIGHT, "right",()->getPlayer().getComponent(PlayerControl.class).right());
-       onKey(KeyCode.LEFT, "left",()->getPlayer().getComponent(PlayerControl.class).left());
+        getInput().addAction(new UserAction("left") {
+            @Override
+            protected void onAction() {
+                player.getComponent(PlayerControl.class).left();
+            }
+
+            @Override
+            protected void onActionEnd() {
+                player.getComponent(PlayerControl.class).stop();
+            }
+        }, KeyCode.LEFT);
+
+        getInput().addAction(new UserAction("right") {
+            @Override
+            protected void onAction() {
+                player.getComponent(PlayerControl.class).right();
+            }
+
+            @Override
+            protected void onActionEnd() {
+                player.getComponent(PlayerControl.class).stop();
+            }
+        }, KeyCode.RIGHT);
+
+        getInput().addAction(new UserAction("jump") {
+            @Override
+            protected void onAction() {
+                player.getComponent(PlayerControl.class).jump();
+            }
+
+            @Override
+            protected void onActionEnd() {
+                player.getComponent(PlayerControl.class).stop();
+            }
+        }, KeyCode.UP);
+
+        //getInput().addAction(new UserAction("click") {
+        //}, );
     }
 
     @Override
@@ -115,7 +153,7 @@ public class SootApp extends GameApplication {
 
         physics.addCollisionHandler(new CollisionHandler(SootType.PLAYER, SootType.DANGER) {
             @Override
-            protected void onCollision(Entity player, Entity danger) {
+            protected void onCollisionBegin(Entity player, Entity danger) {
                 life--;
             }
         });
@@ -124,6 +162,14 @@ public class SootApp extends GameApplication {
             @Override
             protected void onCollision(Entity player, Entity door) {
                 popUp();
+            }
+        });
+        physics.addCollisionHandler(new CollisionHandler(SootType.PLAYER, SootType.OBSTACLE) {
+            @Override
+            protected void onCollisionBegin(Entity player, Entity obstacle) {
+                //to verify collision
+                System.out.println("obstacle");
+
             }
         });
     }

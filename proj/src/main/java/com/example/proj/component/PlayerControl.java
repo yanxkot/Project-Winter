@@ -12,14 +12,14 @@ public class PlayerControl extends Component {
      * this method determines the increment when player presses left
      */
     public void left(){
-        position.translateX(-5 * speed);
+        physics.setVelocityX(-50);
     }
 
     /**
      * this method determines the increment when player presses right
      */
     public void right(){
-        position.translateX(5 * speed);
+        physics.setVelocityX(50);
     }
 
     /**
@@ -31,7 +31,7 @@ public class PlayerControl extends Component {
 
     @Override
     public void onUpdate(double tpf){
-        speed = tpf * 60;
+        //speed = tpf * 60;
     }
 
 }
