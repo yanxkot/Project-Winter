@@ -11,6 +11,8 @@ import com.almasb.fxgl.physics.PhysicsComponent;
 import com.almasb.fxgl.physics.box2d.dynamics.BodyType;
 import com.almasb.fxgl.physics.box2d.dynamics.FixtureDef;
 import com.example.proj.component.PlayerControl;
+import javafx.geometry.Point2D;
+import javafx.scene.paint.Color;
 
 /**
  *
@@ -42,6 +44,7 @@ public class SootFactory implements EntityFactory {
         PhysicsComponent physics = new PhysicsComponent();
         physics.setBodyType(BodyType.DYNAMIC);
         physics.setFixtureDef(new FixtureDef().friction(0f));
+        physics.addGroundSensor(new HitBox("GROUND_SENSOR", new Point2D(16, 38), BoundingShape.box(6, 8)));
         return FXGL.entityBuilder(data)
                 .type(SootType.PLAYER)
                 .view("finalSOOT.gif")

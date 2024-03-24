@@ -16,11 +16,15 @@ import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -48,6 +52,10 @@ public class SootApp extends GameApplication {
         gameSettings.setWidth(450);
         gameSettings.setHeight(360);
         gameSettings.setTitle("Soot(sin)");
+        //toolbar
+
+
+
     }
 
     @Override
@@ -107,6 +115,7 @@ public class SootApp extends GameApplication {
         player.addComponent(new PlayerControl());
         //getGameWorld().spawn("platform", 50, 50);
         set("Player", player);
+
         //getGameWorld().setLevelFromMap("1plat.tmx");
         //getGameWorld().setLevel(level);
     }
@@ -165,6 +174,7 @@ public class SootApp extends GameApplication {
             protected void onCollisionBegin(Entity player, Entity door) {
                 //to verify collision
                 System.out.println("door");
+                getGameScene().removeUINode(toolBar);
 
             }
         });
@@ -184,13 +194,31 @@ public class SootApp extends GameApplication {
      */
     @Override
     protected void initUI(){
-        Image soot = new Image("file:proj/src/main/resources/Assets/Texture/sootyyy.gif");
-        ImageView sootV = new ImageView(soot);
-        Button button = new Button("Hi");
-        button.setAlignment(Pos.CENTER);
-        VBox vBox = new VBox(button);
-        vBox.setAlignment(Pos.CENTER);
-        //getGameScene().addUINode(sootV);
+
+        toolBar = new VBox();
+        Button jumpB = new Button("Jump");
+        jumpB.setDefaultButton(false);
+        //doesn't work yet
+        jumpB.setOnAction(event -> {
+            AnchorPane editJ = new AnchorPane();
+            VBox properties = new VBox();
+            TextField velocity = new TextField("Velocity");
+            TextField angle = new TextField("Angle");
+            Button exit = new Button("x");
+            properties.getChildren().addAll(velocity,angle);
+            editJ.getChildren().addAll(properties,exit);
+            editJ.setTopAnchor(exit,2.);
+            editJ.setRightAnchor(exit,2.);
+            getGameScene().addUINode(editJ);
+            exit.setOnAction(event1->{
+                getGameScene().removeUINode(editJ);
+            });
+         });
+        toolBar.getChildren().add(jumpB);
+        toolBar.setTranslateX(10);
+        toolBar.setTranslateY(10);
+        getGameScene().addUINode(toolBar);
+        //getGameScene().addUINode(sootV);*/
     }
 
     /**
