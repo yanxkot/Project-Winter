@@ -39,7 +39,8 @@ public class SootApp extends GameApplication {
     int level;
     int life;
     private Entity player;
-   // Stage taskStage = new Stage();
+    private VBox toolBar;
+    //Stage taskStage = new Stage();
     //Scene taskScene;
 
 
@@ -89,14 +90,14 @@ public class SootApp extends GameApplication {
 
         getInput().addAction(new UserAction("jump") {
             @Override
-            protected void onAction() {
+            protected void onActionBegin() {
                 player.getComponent(PlayerControl.class).jump();
             }
 
-            @Override
+            /*@Override
             protected void onActionEnd() {
                 player.getComponent(PlayerControl.class).stop();
-            }
+            }*/
         }, KeyCode.UP);
 
         //getInput().addAction(new UserAction("click") {

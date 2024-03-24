@@ -95,4 +95,12 @@ public class SootFactory implements EntityFactory {
 
     }
 
+    @Spawns("background")
+    public Entity newBackground(SpawnData data) {
+        return FXGL.entityBuilder(data)
+                .view(String.valueOf(Color.BLUE))
+                //.zIndex(-1)
+                .build();
+    }
+
 }
