@@ -14,6 +14,7 @@ import com.almasb.fxgl.physics.box2d.dynamics.FixtureDef;
 import com.example.proj.component.PlayerControl;
 import javafx.geometry.Point2D;
 import javafx.scene.paint.Color;
+import com.example.proj.SootType.*;
 
 /**
  *

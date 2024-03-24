@@ -5,25 +5,27 @@ import com.almasb.fxgl.app.GameSettings;
 import com.almasb.fxgl.app.scene.GameView;
 import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.entity.Entity;
+import com.almasb.fxgl.entity.GameWorld;
 import com.almasb.fxgl.entity.level.Level;
 import com.almasb.fxgl.physics.CollisionHandler;
 import com.almasb.fxgl.physics.PhysicsWorld;
+import com.almasb.fxgl.ui.DialogFactoryService;
 import com.example.proj.component.PlayerControl;
 import com.almasb.fxgl.input.UserAction;
+import com.almasb.fxgl.entity.components.CollidableComponent;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -31,8 +33,10 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.util.Map;
+import java.util.Optional;
 
 import static com.almasb.fxgl.dsl.FXGL.*;
+import static com.example.proj.SootType.PLATFORM;
 
 public class SootApp extends GameApplication {
     private Stage popupStage;
@@ -42,6 +46,7 @@ public class SootApp extends GameApplication {
     int life;
     private Entity player;
     private VBox toolBar;
+    //private Alert invalidInputError;
     //Stage taskStage = new Stage();
     //Scene taskScene;
 
@@ -52,12 +57,12 @@ public class SootApp extends GameApplication {
      * This method initializes the width, height and title of the game.
      */
     protected void initSettings(GameSettings gameSettings) {
-        gameSettings.setWidth(450);
+        //TODO: modify dimensions of screen or create custom dialog factory service
+        //width=700 to allow enough space for error message, (originally 450)
+        //temporary resolution
+        gameSettings.setWidth(700);
         gameSettings.setHeight(360);
         gameSettings.setTitle("Soot(sin)");
-        //toolbar
-
-
     }
 
     @Override
@@ -68,6 +73,7 @@ public class SootApp extends GameApplication {
         getInput().addAction(new UserAction("left") {
             @Override
             protected void onAction() {
+                
                 player.getComponent(PlayerControl.class).left();
             }
 
@@ -155,7 +161,7 @@ public class SootApp extends GameApplication {
         physics.setGravity(0, 372.78);
 
         //TODO: door, not platform
-        physics.addCollisionHandler(new CollisionHandler(SootType.PLAYER, SootType.PLATFORM) {
+        physics.addCollisionHandler(new CollisionHandler(SootType.PLAYER, PLATFORM) {
             @Override
             protected void onCollision(Entity player, Entity platform) {
 
@@ -199,30 +205,41 @@ public class SootApp extends GameApplication {
     @Override
     protected void initUI() {
 
+
         toolBar = new VBox();
+        Text tool = new Text("tools");
         Button jumpB = new Button("Jump");
-        jumpB.setDefaultButton(false);
-        //doesn't work yet
+        jumpB.setFocusTraversable(false);
         jumpB.setOnAction(event -> {
-            AnchorPane editJ = new AnchorPane();
-            VBox properties = new VBox();
+
+            GridPane properties = new GridPane();
+            Text velocityText = new Text("Velocity");
+            velocityText.setFill(Color.WHITE);
             TextField velocity = new TextField("Velocity");
+            Text angleText = new Text("Angle");
+            angleText.setFill(Color.WHITE);
             TextField angle = new TextField("Angle");
-            Button exit = new Button("x");
-            properties.getChildren().addAll(velocity, angle);
-            editJ.getChildren().addAll(properties, exit);
-            editJ.setTopAnchor(exit, 2.);
-            editJ.setRightAnchor(exit, 2.);
-            getGameScene().addUINode(editJ);
-            exit.setOnAction(event1 -> {
-                getGameScene().removeUINode(editJ);
-            });
+            //TODO: bind jump velocity & angle textField values to those used in playerControl
+            velocity.setText("10");
+            angle.setText("45");
+            addNumericInputValidation(velocity);
+            addNumericInputValidation(angle);
+            Button exit = getUIFactoryService().newButton("x");
+            properties.addRow(0, velocityText, velocity);
+            properties.addRow(1, angleText,angle);
+            properties.setHgap(15);
+            getDialogService().showBox("Edit Jump Properties", properties, exit);
+
         });
-        toolBar.getChildren().add(jumpB);
+
+        toolBar.getChildren().addAll(tool,jumpB);
         toolBar.setTranslateX(10);
         toolBar.setTranslateY(10);
         getGameScene().addUINode(toolBar);
-        //getGameScene().addUINode(sootV);*/
+
+
+
+        // */
     }
 
 
@@ -300,6 +317,27 @@ public class SootApp extends GameApplication {
      */
     private static Entity getPlayer() {
         return getGameWorld().getSingleton(SootType.PLAYER);
+    }
+    /**
+     * This method displays an error message if the user's input is not numeric
+     *
+     */
+    private void addNumericInputValidation(TextField textField) {
+        textField.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue.matches("-?\\d*\\.?\\d*|-")) {
+                String input = textField.getText();
+                try {
+                    double value = Double.parseDouble(input);
+                } catch (NumberFormatException e) {
+                    getDialogService().showErrorBox("Input must be a valid number. Please try again.", () -> {
+                        textField.setText(oldValue);
+
+                    });
+
+                }
+            }
+
+        });
     }
 
     /**
