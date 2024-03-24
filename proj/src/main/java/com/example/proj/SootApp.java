@@ -94,10 +94,10 @@ public class SootApp extends GameApplication {
                 player.getComponent(PlayerControl.class).jump();
             }
 
-            /*@Override
+            @Override
             protected void onActionEnd() {
                 player.getComponent(PlayerControl.class).stop();
-            }*/
+            }
         }, KeyCode.UP);
 
         //getInput().addAction(new UserAction("click") {
@@ -195,7 +195,7 @@ public class SootApp extends GameApplication {
      */
     @Override
     protected void initUI(){
-
+        /*
         toolBar = new VBox();
         Button jumpB = new Button("Jump");
         jumpB.setDefaultButton(false);
