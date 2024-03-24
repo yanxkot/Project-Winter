@@ -178,7 +178,7 @@ public class SootApp extends GameApplication {
                 if (doorCompletion == false)
                     popUp();
                 System.out.println("door");
-                getGameScene().removeUINode(toolBar);
+                //getGameScene().removeUINode(toolBar);
 
             }
         });
@@ -199,7 +199,7 @@ public class SootApp extends GameApplication {
     @Override
     protected void initUI() {
 
-        toolBar = new VBox();
+        /*toolBar = new VBox();
         Button jumpB = new Button("Jump");
         jumpB.setDefaultButton(false);
         //doesn't work yet
@@ -236,14 +236,12 @@ public class SootApp extends GameApplication {
         if (popupStage != null && popupStage.isShowing()) {
             return;
         }
-
-
         popupStage = new Stage();
         popupStage.initModality(Modality.APPLICATION_MODAL);
         popupStage.setTitle("Popup");
 
 
-        StackPane popupContent = new StackPane();
+        VBox popupContent = new VBox();
 
 
         Button closeButton = new Button("Close");
@@ -258,6 +256,7 @@ public class SootApp extends GameApplication {
 
         });
         popupContent.getChildren().addAll(closeButton, checkButton);
+        popupContent.setAlignment(Pos.CENTER);
 
 
         popupContent.setPrefSize(300, 200);
