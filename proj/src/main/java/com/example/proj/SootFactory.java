@@ -5,6 +5,7 @@ import com.almasb.fxgl.entity.EntityFactory;
 import com.almasb.fxgl.entity.SpawnData;
 import com.almasb.fxgl.entity.Spawns;
 import com.almasb.fxgl.entity.components.CollidableComponent;
+import com.almasb.fxgl.entity.components.IrremovableComponent;
 import com.almasb.fxgl.physics.BoundingShape;
 import com.almasb.fxgl.physics.HitBox;
 import com.almasb.fxgl.physics.PhysicsComponent;
@@ -26,12 +27,12 @@ public class SootFactory implements EntityFactory {
     @Spawns("Platform")
     public Entity newPlatform(SpawnData data){
     return FXGL.entityBuilder(data)
-            .from(data)
             .type(SootType.PLATFORM)
             .bbox(new HitBox(BoundingShape.box(data.<Integer>get("width"),data.<Integer>get("height"))))
             .with(new PhysicsComponent())
-            .collidable()
+            .with(new CollidableComponent(true))
             .build();
+
     }
 
     /**
@@ -95,12 +96,6 @@ public class SootFactory implements EntityFactory {
 
     }
 
-    @Spawns("background")
-    public Entity newBackground(SpawnData data) {
-        return FXGL.entityBuilder(data)
-                .view(String.valueOf(Color.BLUE))
-                //.zIndex(-1)
-                .build();
-    }
+
 
 }

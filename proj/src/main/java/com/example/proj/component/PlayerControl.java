@@ -3,6 +3,10 @@ package com.example.proj.component;
 import com.almasb.fxgl.entity.component.Component;
 import com.almasb.fxgl.physics.PhysicsComponent;
 import com.almasb.fxgl.entity.components.TransformComponent;
+import javafx.scene.input.KeyCode;
+
+import java.security.Key;
+
 public class PlayerControl extends Component {
     private PhysicsComponent physics;
     private TransformComponent position;
@@ -14,24 +18,20 @@ public class PlayerControl extends Component {
      */
 
     public void left(){
-        physics.onGroundProperty().addListener((obs, old, isOnGround) -> {
-            if (!isOnGround) {
-                physics.setVelocityX(0);
-            }
-        });
-        physics.setVelocityX(-50);
+        if(physics.isOnGround()) {
+            physics.setVelocityX(-50);
+        }
+        //else if(!physics.isOnGround()) physics.setVelocityX(0);
     }
 
     /**
      * this method determines the increment when player presses right
      */
     public void right(){
-        physics.onGroundProperty().addListener((obs, old, isOnGround) -> {
-            if (!isOnGround) {
-                physics.setVelocityX(0);
-            }
-        });
+        if(physics.isOnGround()) {
         physics.setVelocityX(50);
+        }
+        //else if(!physics.isOnGround()) physics.setVelocityX(0);
     }
 
     /**
@@ -39,14 +39,19 @@ public class PlayerControl extends Component {
      */
 
     public void jump(){
-        physics.onGroundProperty().addListener((obs, old, isOnGround) -> {
-            if (isOnGround) {
-                jumps = 1;
+        if (physics.isOnGround()) {
+               jumps = 1;
+            //physics.setVelocityY(0);
+            //physics.setVelocityX(0);
             }
-        });
         if(jumps == 1) {
             physics.setVelocityY(-300);
+            //physics.setVelocityX(100);
             jumps--;
+        }
+        else if(physics.isOnGround() && jumps == 0){
+            physics.setVelocityY(0);
+            physics.setVelocityX(0);
         }
     }
 
