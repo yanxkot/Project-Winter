@@ -176,9 +176,9 @@ public class SootApp extends GameApplication {
             protected void onCollisionBegin(Entity player, Entity door) {
                 //to verify collision
                 if (doorCompletion == false)
-                    popUp();
-                System.out.println("door");
-                getGameScene().removeUINode(toolBar);
+                    popUp1();
+               // System.out.println("door");
+               // getGameScene().removeUINode(toolBar);
 
             }
         });
@@ -196,7 +196,9 @@ public class SootApp extends GameApplication {
     /**
      * This method imports a gif file to then initialize to the character.
      */
+    /*
     @Override
+
     protected void initUI() {
 
         toolBar = new VBox();
@@ -222,16 +224,16 @@ public class SootApp extends GameApplication {
         toolBar.setTranslateX(10);
         toolBar.setTranslateY(10);
         getGameScene().addUINode(toolBar);
-        //getGameScene().addUINode(sootV);*/
+        //getGameScene().addUINode(sootV);
     }
-
+*/
 
     /**
      * This method opens a Stage
      */
 
 
-    private void popUp() {
+    private void popUp1() {
 
         if (popupStage != null && popupStage.isShowing()) {
             return;
@@ -244,7 +246,7 @@ public class SootApp extends GameApplication {
 
 
         StackPane popupContent = new StackPane();
-
+        VBox vbox = new VBox();
 
         Button closeButton = new Button("Close");
         closeButton.setOnAction(event -> {
@@ -255,9 +257,10 @@ public class SootApp extends GameApplication {
         Button checkButton = new Button("check answer");
         checkButton.setOnAction(event -> {
            verifyAnswer();
-
+           popupStage.close();
         });
-        popupContent.getChildren().addAll(closeButton, checkButton);
+        vbox.getChildren().addAll(closeButton,checkButton);
+        popupContent.getChildren().addAll(vbox);
 
 
         popupContent.setPrefSize(300, 200);
@@ -272,6 +275,11 @@ public class SootApp extends GameApplication {
         popupStage.show();
     }
 
+    private void popUp() {
+        getDialogService().showInputBox("This is an input box. You can type stuff...", answer -> {
+            System.out.println("You typed: "+ answer);
+        });
+    }
     private void verifyAnswer() {
         //if answer is right then doorCompletion is true
         doorCompletion = true;
