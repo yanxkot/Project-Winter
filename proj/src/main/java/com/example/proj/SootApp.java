@@ -176,9 +176,9 @@ public class SootApp extends GameApplication {
             protected void onCollisionBegin(Entity player, Entity door) {
                 //to verify collision
                 if (doorCompletion == false)
-                    popUp1();
-               // System.out.println("door");
-               // getGameScene().removeUINode(toolBar);
+                    popUp();
+                System.out.println("door");
+                //getGameScene().removeUINode(toolBar);
 
             }
         });
@@ -196,12 +196,10 @@ public class SootApp extends GameApplication {
     /**
      * This method imports a gif file to then initialize to the character.
      */
-    /*
     @Override
-
     protected void initUI() {
 
-        toolBar = new VBox();
+        /*toolBar = new VBox();
         Button jumpB = new Button("Jump");
         jumpB.setDefaultButton(false);
         //doesn't work yet
@@ -224,29 +222,27 @@ public class SootApp extends GameApplication {
         toolBar.setTranslateX(10);
         toolBar.setTranslateY(10);
         getGameScene().addUINode(toolBar);
-        //getGameScene().addUINode(sootV);
+        //getGameScene().addUINode(sootV);*/
     }
-*/
+
 
     /**
      * This method opens a Stage
      */
 
 
-    private void popUp1() {
+    private void popUp() {
 
         if (popupStage != null && popupStage.isShowing()) {
             return;
         }
-
-
         popupStage = new Stage();
         popupStage.initModality(Modality.APPLICATION_MODAL);
         popupStage.setTitle("Popup");
 
 
-        StackPane popupContent = new StackPane();
-        VBox vbox = new VBox();
+        VBox popupContent = new VBox();
+
 
         Button closeButton = new Button("Close");
         closeButton.setOnAction(event -> {
@@ -257,10 +253,10 @@ public class SootApp extends GameApplication {
         Button checkButton = new Button("check answer");
         checkButton.setOnAction(event -> {
            verifyAnswer();
-           popupStage.close();
+
         });
-        vbox.getChildren().addAll(closeButton,checkButton);
-        popupContent.getChildren().addAll(vbox);
+        popupContent.getChildren().addAll(closeButton, checkButton);
+        popupContent.setAlignment(Pos.CENTER);
 
 
         popupContent.setPrefSize(300, 200);
@@ -275,11 +271,6 @@ public class SootApp extends GameApplication {
         popupStage.show();
     }
 
-    private void popUp() {
-        getDialogService().showInputBox("This is an input box. You can type stuff...", answer -> {
-            System.out.println("You typed: "+ answer);
-        });
-    }
     private void verifyAnswer() {
         //if answer is right then doorCompletion is true
         doorCompletion = true;
