@@ -9,6 +9,7 @@ import com.almasb.fxgl.entity.GameWorld;
 import com.almasb.fxgl.entity.level.Level;
 import com.almasb.fxgl.physics.CollisionHandler;
 import com.almasb.fxgl.physics.PhysicsWorld;
+import com.almasb.fxgl.ui.DialogFactoryService;
 import com.example.proj.component.PlayerControl;
 import com.almasb.fxgl.input.UserAction;
 import com.almasb.fxgl.entity.components.CollidableComponent;
@@ -24,6 +25,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -55,12 +57,12 @@ public class SootApp extends GameApplication {
      * This method initializes the width, height and title of the game.
      */
     protected void initSettings(GameSettings gameSettings) {
-        gameSettings.setWidth(450);
+        //TODO: modify dimensions of screen or create custom dialog factory service
+        //width=700 to allow enough space for error message, (originally 450)
+        //temporary resolution
+        gameSettings.setWidth(700);
         gameSettings.setHeight(360);
         gameSettings.setTitle("Soot(sin)");
-        //toolbar
-
-
     }
 
     @Override
@@ -203,55 +205,34 @@ public class SootApp extends GameApplication {
     @Override
     protected void initUI() {
 
-        /*
-        VBox content = new VBox(
-                getUIFactoryService().newText("Line 1"),
-                getUIFactoryService().newText("Line 2"),
-                getAssetLoader().loadTexture("brick.png"),
-                getUIFactoryService().newText("Line 3"),
-                getUIFactoryService().newText("Line 4")
-        );
 
-        Button btnClose = getUIFactoryService().newButton("Press me to close");
-        btnClose.setPrefWidth(300);
-
-        getDialogService().showBox("This is a customizable box", content, btnClose);
-        */
         toolBar = new VBox();
+        Text tool = new Text("tools");
         Button jumpB = new Button("Jump");
-        jumpB.setDefaultButton(false);
+        jumpB.setFocusTraversable(false);
         jumpB.setOnAction(event -> {
 
             GridPane properties = new GridPane();
-            Text editProp = new Text("Edit Jump Properties");
             Text velocityText = new Text("Velocity");
+            velocityText.setFill(Color.WHITE);
             TextField velocity = new TextField("Velocity");
             Text angleText = new Text("Angle");
+            angleText.setFill(Color.WHITE);
             TextField angle = new TextField("Angle");
-<<<<<<< Updated upstream
-            Button exit = new Button("x");
-            properties.getChildren().addAll(velocity, angle);
-            editJ.getChildren().addAll(properties, exit);
-            editJ.setTopAnchor(exit, 2.);
-            editJ.setRightAnchor(exit, 2.);
-            getGameScene().addUINode(editJ);
-            exit.setOnAction(event1 -> {
-                getGameScene().removeUINode(editJ);
-            });
-        });
-=======
+            //TODO: bind jump velocity & angle textField values to those used in playerControl
             velocity.setText("10");
             angle.setText("45");
             addNumericInputValidation(velocity);
             addNumericInputValidation(angle);
-            Button exit = getUIFactoryService().newButton("x");;
-            properties.addRow(0, editProp);
-            properties.addRow(1, velocityText, velocity);
-            properties.addRow(2, angleText,angle);
+            Button exit = getUIFactoryService().newButton("x");
+            properties.addRow(0, velocityText, velocity);
+            properties.addRow(1, angleText,angle);
+            properties.setHgap(15);
             getDialogService().showBox("Edit Jump Properties", properties, exit);
-            });
->>>>>>> Stashed changes
-        toolBar.getChildren().add(jumpB);
+
+        });
+
+        toolBar.getChildren().addAll(tool,jumpB);
         toolBar.setTranslateX(10);
         toolBar.setTranslateY(10);
         getGameScene().addUINode(toolBar);
@@ -337,6 +318,10 @@ public class SootApp extends GameApplication {
     private static Entity getPlayer() {
         return getGameWorld().getSingleton(SootType.PLAYER);
     }
+    /**
+     * This method displays an error message if the user's input is not numeric
+     *
+     */
     private void addNumericInputValidation(TextField textField) {
         textField.textProperty().addListener((observable, oldValue, newValue) -> {
             if (!newValue.matches("-?\\d*\\.?\\d*|-")) {
