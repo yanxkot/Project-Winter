@@ -35,7 +35,9 @@ import java.util.Map;
 import static com.almasb.fxgl.dsl.FXGL.*;
 
 public class SootApp extends GameApplication {
+    private Stage popupStage;
 
+    private boolean doorCompletion = false;
     int level;
     int life;
     private Entity player;
@@ -56,14 +58,13 @@ public class SootApp extends GameApplication {
         //toolbar
 
 
-
     }
 
     @Override
     /**
      * This method initialise the controls of the main character. It assigns a key to a movement
      */
-    protected void initInput(){
+    protected void initInput() {
         getInput().addAction(new UserAction("left") {
             @Override
             protected void onAction() {
@@ -94,10 +95,10 @@ public class SootApp extends GameApplication {
                 player.getComponent(PlayerControl.class).jump();
             }
 
-            @Override
+            /*@Override
             protected void onActionEnd() {
                 player.getComponent(PlayerControl.class).stop();
-            }
+            }*/
         }, KeyCode.UP);
 
         //getInput().addAction(new UserAction("click") {
@@ -108,7 +109,7 @@ public class SootApp extends GameApplication {
     /**
      * This method initializes a level in the game by setting a map per each level. The character is also initialized in this method.
      */
-    protected void initGame(){
+    protected void initGame() {
         getGameWorld().addEntityFactory(new SootFactory());
         player = null;
         initLevel();
@@ -130,11 +131,11 @@ public class SootApp extends GameApplication {
     }
 
     //TODO: build2 @
+
     /**
      * this method imports the corresponding tmx file from the resources file to the correct level.
-     *
      */
-    private void initLevel(){
+    private void initLevel() {
         Level level = FXGL.setLevelFromMap("tmx/Plat1.9.0.tmx");
         /*
         //copied as example:
@@ -147,7 +148,7 @@ public class SootApp extends GameApplication {
     /**
      * This method initializes the game's physics such as gravity. It also handles collision between two entities.
      */
-    protected void initPhysics(){
+    protected void initPhysics() {
         PhysicsWorld physics = getPhysicsWorld();
         //one(1) meter ≈ 38 pixels
         //9.81m/s^2 ≈ 372.78 pixels
@@ -174,6 +175,8 @@ public class SootApp extends GameApplication {
             @Override
             protected void onCollisionBegin(Entity player, Entity door) {
                 //to verify collision
+                if (doorCompletion == false)
+                    popUp();
                 System.out.println("door");
                 getGameScene().removeUINode(toolBar);
 
@@ -194,8 +197,8 @@ public class SootApp extends GameApplication {
      * This method imports a gif file to then initialize to the character.
      */
     @Override
-    protected void initUI(){
-        /*
+    protected void initUI() {
+
         toolBar = new VBox();
         Button jumpB = new Button("Jump");
         jumpB.setDefaultButton(false);
@@ -206,15 +209,15 @@ public class SootApp extends GameApplication {
             TextField velocity = new TextField("Velocity");
             TextField angle = new TextField("Angle");
             Button exit = new Button("x");
-            properties.getChildren().addAll(velocity,angle);
-            editJ.getChildren().addAll(properties,exit);
-            editJ.setTopAnchor(exit,2.);
-            editJ.setRightAnchor(exit,2.);
+            properties.getChildren().addAll(velocity, angle);
+            editJ.getChildren().addAll(properties, exit);
+            editJ.setTopAnchor(exit, 2.);
+            editJ.setRightAnchor(exit, 2.);
             getGameScene().addUINode(editJ);
-            exit.setOnAction(event1->{
+            exit.setOnAction(event1 -> {
                 getGameScene().removeUINode(editJ);
             });
-         });
+        });
         toolBar.getChildren().add(jumpB);
         toolBar.setTranslateX(10);
         toolBar.setTranslateY(10);
@@ -222,23 +225,61 @@ public class SootApp extends GameApplication {
         //getGameScene().addUINode(sootV);*/
     }
 
+
     /**
      * This method opens a Stage
      */
-     protected void popUp(){
-         Node node  = new StackPane();
-         Button b = new Button("hey");
-
-         GameView view  = new GameView(node,5);
-         getGameScene().addGameView(view);
 
 
+    private void popUp() {
 
-      }
+        if (popupStage != null && popupStage.isShowing()) {
+            return;
+        }
 
+
+        popupStage = new Stage();
+        popupStage.initModality(Modality.APPLICATION_MODAL);
+        popupStage.setTitle("Popup");
+
+
+        StackPane popupContent = new StackPane();
+
+
+        Button closeButton = new Button("Close");
+        closeButton.setOnAction(event -> {
+
+            popupStage.close();
+        });
+
+        Button checkButton = new Button("check answer");
+        checkButton.setOnAction(event -> {
+           verifyAnswer();
+
+        });
+        popupContent.getChildren().addAll(closeButton, checkButton);
+
+
+        popupContent.setPrefSize(300, 200);
+
+
+        Scene popupScene = new Scene(popupContent);
+
+
+        popupStage.setScene(popupScene);
+
+
+        popupStage.show();
+    }
+
+    private void verifyAnswer() {
+        //if answer is right then doorCompletion is true
+        doorCompletion = true;
+    }
 
     /**
      * This method runs the application
+     *
      * @param stage
      * @throws IOException
      */
@@ -254,14 +295,14 @@ public class SootApp extends GameApplication {
 
     /**
      * This method returns the player
+     *
      * @return
      */
-    private static Entity getPlayer(){
+    private static Entity getPlayer() {
         return getGameWorld().getSingleton(SootType.PLAYER);
     }
 
     /**
-     *
      * @param args
      */
     public static void main(String[] args) {
