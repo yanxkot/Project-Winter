@@ -1,17 +1,21 @@
 package com.example.proj;
 
+import com.almasb.fxgl.entity.Entity;
+
 public enum SootType {
-    PLAYER,
-    PLATFORM,
-    OBSTACLE,
-    DOOR,
     DANGER,
-    TOOLTIP,
-    TOOLBAR,
-    //actions:
-    PENDULUM,
-    SPRING,
-    TRIBUCHET,
+    DOOR,
+    LENS,
     MIRROR,
-    LENS
+    OBSTACLE,
+    PENDULUM,
+    //actions:
+
+    PLATFORM,
+    PLAYER,
+    SPRING,
+    TOOLBAR,
+    TOOLTIP,
+    TRIBUCHET
+
 }
