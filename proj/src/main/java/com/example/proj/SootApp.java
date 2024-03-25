@@ -39,6 +39,7 @@ import static com.almasb.fxgl.dsl.FXGL.*;
 import static com.almasb.fxgl.dsl.FXGLForKtKt.inc;
 import static com.example.proj.SootType.PLATFORM;
 
+//TODO: add randomization method to generate levels.
 public class SootApp extends GameApplication {
     private Stage popupStage;
 
@@ -311,6 +312,7 @@ public class SootApp extends GameApplication {
         popupStage.show();
     }
 
+    //TODO: add if and else statement to check validity of answer
     private void verifyAnswer() {
         //if answer is right then doorCompletion is true
         doorCompletion = true;

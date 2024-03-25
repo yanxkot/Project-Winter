@@ -2,7 +2,7 @@ package com.example.proj;
 
 public class Questions {
 
-
+//TODO: add properties to question class
     public void derivative(){
 
     }
