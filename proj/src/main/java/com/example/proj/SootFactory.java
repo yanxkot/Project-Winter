@@ -87,6 +87,16 @@ public class SootFactory implements EntityFactory {
                 .build();
 
     }
+    @Spawns("Danger")
+    public Entity newDanger(SpawnData data){
+        return FXGL.entityBuilder(data)
+                .from(data)
+                .type(SootType.DANGER)
+                .bbox(new HitBox(BoundingShape.box(data.<Integer>get("width"), data.<Integer>get("height"))))
+                .with(new PhysicsComponent())
+                .collidable()
+                .build();
+    }
 
     /**
      * This method spawns an entity of type Level
@@ -96,6 +106,7 @@ public class SootFactory implements EntityFactory {
     public void newLevel(Spawns data){
 
     }
+
 
 
 

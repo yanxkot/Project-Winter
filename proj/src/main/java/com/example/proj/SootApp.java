@@ -36,6 +36,7 @@ import java.util.Map;
 import java.util.Optional;
 
 import static com.almasb.fxgl.dsl.FXGL.*;
+import static com.almasb.fxgl.dsl.FXGLForKtKt.inc;
 import static com.example.proj.SootType.PLATFORM;
 
 public class SootApp extends GameApplication {
@@ -63,6 +64,7 @@ public class SootApp extends GameApplication {
         gameSettings.setWidth(700);
         gameSettings.setHeight(360);
         gameSettings.setTitle("Soot(sin)");
+
     }
 
     @Override
@@ -123,6 +125,17 @@ public class SootApp extends GameApplication {
         player.addComponent(new PlayerControl());
         //getGameWorld().spawn("platform", 50, 50);
         set("Player", player);
+        //life count display
+        HBox lifeView = new HBox();
+        Text lifeCount = getUIFactoryService().newText("");
+        lifeCount.textProperty().bind(getWorldProperties().intProperty("life").asString());
+        lifeCount.setFill(Color.BLACK);
+        lifeView.getChildren().addAll(getAssetLoader().loadTexture("heart.png"),lifeCount);
+        lifeView.setTranslateX(60);
+        lifeView.setTranslateY(10);
+        getGameScene().addUINodes(lifeView);
+
+
 
         //getGameWorld().setLevelFromMap("1plat.tmx");
         //getGameWorld().setLevel(level);
@@ -131,6 +144,11 @@ public class SootApp extends GameApplication {
     /**
      * This method initializes the game variables such as life, level, .... etc
      */
+    @Override
+    protected void initGameVars(Map<String, Object> vars) {
+        vars.put("level", 1);
+        vars.put("life", 5);
+    }
     protected void initGameVars() {
         level = 1;
         life = 3;
@@ -172,8 +190,8 @@ public class SootApp extends GameApplication {
 
         physics.addCollisionHandler(new CollisionHandler(SootType.PLAYER, SootType.DANGER) {
             @Override
-            protected void onCollisionBegin(Entity player, Entity danger) {
-                life--;
+            protected void onCollision(Entity player, Entity danger) {
+                player.getComponent(PlayerControl.class).die();
             }
         });
 
