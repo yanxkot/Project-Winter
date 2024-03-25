@@ -20,6 +20,7 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -46,6 +47,7 @@ public class SootApp extends GameApplication {
     private boolean doorCompletion = false;
     int level;
     int life;
+    int doorAnswer;
     private Entity player;
     private VBox toolBar;
     //private Alert invalidInputError;
@@ -283,21 +285,26 @@ public class SootApp extends GameApplication {
         popupStage.setTitle("Popup");
 
 
-        StackPane popupContent = new StackPane();
+        VBox popupContent = new VBox();
+        TextField answerField = new TextField();
+
 
 
         Button closeButton = new Button("Close");
         closeButton.setOnAction(event -> {
-
             popupStage.close();
         });
 
         Button checkButton = new Button("check answer");
         checkButton.setOnAction(event -> {
-           verifyAnswer();
-
+            doorAnswer = Integer.parseInt(answerField.getText());
+            verifyAnswer();
         });
-        popupContent.getChildren().addAll(closeButton, checkButton);
+
+        Questions.derivative();
+        Label questionDoor = new Label(Questions.getQuestion());
+        popupContent.getChildren().addAll(questionDoor, answerField, checkButton, closeButton);
+        popupContent.setAlignment(Pos.CENTER);
 
 
         popupContent.setPrefSize(300, 200);
@@ -314,6 +321,11 @@ public class SootApp extends GameApplication {
 
     //TODO: add if and else statement to check validity of answer
     private void verifyAnswer() {
+        if(doorAnswer == Questions.getAnswer()){
+            Label win = new Label("Congrats! Right Answer!");
+            Scene sceneCongrats = new Scene(win);
+            popupStage.setScene(sceneCongrats);
+        }
         //if answer is right then doorCompletion is true
         doorCompletion = true;
     }
