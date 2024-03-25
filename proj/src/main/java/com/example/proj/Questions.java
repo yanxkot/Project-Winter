@@ -2,9 +2,13 @@ package com.example.proj;
 
 public class Questions {
 
-//TODO: add properties to question class
-    public void derivative(){
+    private static String question;
+    private static int answer ;
 
+//TODO: add properties to question class
+    public static void derivative(){
+        question = "What is the answer? 1234";
+        answer = 1234;
     }
 
     public void integral(){
@@ -27,4 +31,11 @@ public class Questions {
 
     }
 
+    public static String getQuestion() {
+        return question;
+    }
+
+    public static int getAnswer() {
+        return answer;
+    }
 }
