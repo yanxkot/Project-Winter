@@ -17,6 +17,8 @@ public class PlayerControl extends Component {
     private TransformComponent position;
     private double speed;
     int jumps = 1;
+    //meters to pixels conversion ratio
+    int mtp = 38;
 
     /**
      * this method determines the increment when player presses left
@@ -60,6 +62,10 @@ public class PlayerControl extends Component {
         }
     }
 
+    public void jumpT(double velocity,double angle){
+        physics.setLinearVelocity(mtp*velocity*Math.cos(angle),-mtp*velocity*Math.sin(angle));
+    }
+
     public void stop(){
         physics.setVelocityX(0);
     }
@@ -75,6 +81,8 @@ public class PlayerControl extends Component {
             return;
         }
         physics.overwritePosition(new Point2D(50,50));
+        physics.setVelocityX(0);
+        physics.setVelocityY(0);
     }
 
     /**

@@ -61,7 +61,7 @@ public class SootApp extends GameApplication {
         //TODO: modify dimensions of screen or create custom dialog factory service
         //width=700 to allow enough space for error message, (originally 450)
         //temporary resolution
-        gameSettings.setWidth(700);
+        gameSettings.setWidth(800);
         gameSettings.setHeight(360);
         gameSettings.setTitle("Soot(sin)");
 
@@ -181,8 +181,8 @@ public class SootApp extends GameApplication {
         //TODO: door, not platform
         physics.addCollisionHandler(new CollisionHandler(SootType.PLAYER, PLATFORM) {
             @Override
-            protected void onCollision(Entity player, Entity platform) {
-
+            protected void onCollisionBegin(Entity player, Entity platform) {
+                player.getComponent(PlayerControl.class).stop();
 
 
             }
@@ -237,16 +237,20 @@ public class SootApp extends GameApplication {
             Text angleText = new Text("Angle");
             angleText.setFill(Color.WHITE);
             TextField angle = new TextField("Angle");
-            //TODO: bind jump velocity & angle textField values to those used in playerControl
-            velocity.setText("10");
-            angle.setText("45");
+            //TODO: add input limitations(range)
             addNumericInputValidation(velocity);
             addNumericInputValidation(angle);
             Button exit = getUIFactoryService().newButton("x");
+            Button jumpAction = new Button("jump");
+            jumpAction.setOnAction(event1 ->{
+                player.getComponent(PlayerControl.class).jumpT(Double.parseDouble(velocity.getText()),Double.parseDouble(angle.getText()));
+                getDialogService().onExit();
+            });
             properties.addRow(0, velocityText, velocity);
             properties.addRow(1, angleText,angle);
+            properties.addRow(2, jumpAction);
             properties.setHgap(15);
-            getDialogService().showBox("Edit Jump Properties", properties, exit);
+            getDialogService().showBox("Edit Jump Properties", properties,jumpAction, exit);
 
         });
 
