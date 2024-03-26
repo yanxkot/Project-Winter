@@ -2,28 +2,19 @@ package com.example.proj;
 
 import com.almasb.fxgl.app.GameApplication;
 import com.almasb.fxgl.app.GameSettings;
-import com.almasb.fxgl.app.scene.GameView;
 import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.entity.Entity;
-import com.almasb.fxgl.entity.GameWorld;
 import com.almasb.fxgl.entity.level.Level;
 import com.almasb.fxgl.physics.CollisionHandler;
 import com.almasb.fxgl.physics.PhysicsWorld;
-import com.almasb.fxgl.ui.DialogFactoryService;
 import com.example.proj.component.PlayerControl;
 import com.almasb.fxgl.input.UserAction;
-import com.almasb.fxgl.entity.components.CollidableComponent;
-import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
-import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
@@ -34,7 +25,6 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.util.Map;
-import java.util.Optional;
 
 import static com.almasb.fxgl.dsl.FXGL.*;
 import static com.almasb.fxgl.dsl.FXGLForKtKt.inc;
@@ -301,8 +291,12 @@ public class SootApp extends GameApplication {
             verifyAnswer();
         });
 
-        Questions.derivative();
-        Label questionDoor = new Label(Questions.getQuestion());
+        Question question = new Question();
+        question.derivative();
+        System.out.println();
+        question.derivativeSolver();
+
+        Label questionDoor = new Label(Question.getQuestion());
         popupContent.getChildren().addAll(questionDoor, answerField, checkButton, closeButton);
         popupContent.setAlignment(Pos.CENTER);
 
@@ -321,7 +315,7 @@ public class SootApp extends GameApplication {
 
     //TODO: add if and else statement to check validity of answer
     private void verifyAnswer() {
-        if(doorAnswer == Questions.getAnswer()){
+        if(doorAnswer == Question.getAnswer()){
             Label win = new Label("Congrats! Right Answer!");
             Scene sceneCongrats = new Scene(win);
             popupStage.setScene(sceneCongrats);
