@@ -126,7 +126,7 @@ public class SootApp extends GameApplication {
 
         Viewport viewport = getGameScene().getViewport();
         viewport.setBounds(-1500, 0, 250 * 70, getAppHeight());
-        viewport.bindToEntity(player, getAppWidth()/2, getAppHeight() / 2);
+        viewport.bindToEntity(player, 50, getAppHeight() / 2);
         viewport.setLazy(true);
 
         //getGameWorld().setLevelFromMap("1plat.tmx");
