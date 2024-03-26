@@ -24,8 +24,8 @@ public class PlayerControl extends Component {
      * this method determines the increment when player presses left
      */
 
-    public void left(){
-        if(physics.isOnGround()) {
+    public void left() {
+        if (physics.isOnGround()) {
             physics.setVelocityX(-50);
         }
         //else if(!physics.isOnGround()) physics.setVelocityX(0);
@@ -34,9 +34,9 @@ public class PlayerControl extends Component {
     /**
      * this method determines the increment when player presses right
      */
-    public void right(){
-        if(physics.isOnGround()) {
-        physics.setVelocityX(50);
+    public void right() {
+        if (physics.isOnGround()) {
+            physics.setVelocityX(50);
         }
         //else if(!physics.isOnGround()) physics.setVelocityX(0);
     }
@@ -45,30 +45,30 @@ public class PlayerControl extends Component {
      * this method determines the increment when player presses up
      */
 
-    public void jump(){
+    public void jump() {
         if (physics.isOnGround()) {
-               jumps = 1;
+            jumps = 1;
             //physics.setVelocityY(0);
             //physics.setVelocityX(0);
-            }
-        if(jumps == 1) {
+        }
+        if (jumps == 1) {
             physics.setVelocityY(-300);
             //physics.setVelocityX(100);
             jumps--;
-        }
-        else if(physics.isOnGround() && jumps == 0){
+        } else if (physics.isOnGround() && jumps == 0) {
             physics.setVelocityY(0);
             physics.setVelocityX(0);
         }
     }
 
-    public void jumpT(double velocity,double angle){
-        physics.setLinearVelocity(mtp*velocity*Math.cos(angle),-mtp*velocity*Math.sin(angle));
+    public void jumpT(double velocity, double angle) {
+        physics.setLinearVelocity(mtp * velocity * Math.cos(angle), -mtp * velocity * Math.sin(angle));
     }
 
-    public void stop(){
+    public void stop() {
         physics.setVelocityX(0);
     }
+
     /**
      * this method removes a life and displays a game over message when 0
      */
@@ -80,7 +80,7 @@ public class PlayerControl extends Component {
                     () -> getGameController().startNewGame());
             return;
         }
-        physics.overwritePosition(new Point2D(50,50));
+        physics.overwritePosition(new Point2D(50, 50));
         physics.setVelocityX(0);
         physics.setVelocityY(0);
     }
@@ -104,7 +104,7 @@ public class PlayerControl extends Component {
     }
 
     @Override
-    public void onUpdate(double tpf){
+    public void onUpdate(double tpf) {
         checkForBounds();
 
     }

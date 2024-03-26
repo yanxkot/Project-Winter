@@ -1,4 +1,5 @@
 package com.example.proj;
+
 import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.entity.EntityFactory;
@@ -26,23 +27,24 @@ public class SootFactory implements EntityFactory {
      * This method spawns an entity of type Platform
      */
     @Spawns("Platform")
-    public Entity newPlatform(SpawnData data){
-    return FXGL.entityBuilder(data)
-            .type(SootType.PLATFORM)
-            .bbox(new HitBox(BoundingShape.box(data.<Integer>get("width"),data.<Integer>get("height"))))
-            .with(new PhysicsComponent())
-            .with(new CollidableComponent(true))
-            .build();
+    public Entity newPlatform(SpawnData data) {
+        return FXGL.entityBuilder(data)
+                .type(SootType.PLATFORM)
+                .bbox(new HitBox(BoundingShape.box(data.<Integer>get("width"), data.<Integer>get("height"))))
+                .with(new PhysicsComponent())
+                .with(new CollidableComponent(true))
+                .build();
 
     }
 
     /**
      * This method spawns an entity of type Player
+     *
      * @param data
      * @return
      */
     @Spawns("Player")
-    public Entity newPlayer(SpawnData data){
+    public Entity newPlayer(SpawnData data) {
         PhysicsComponent physics = new PhysicsComponent();
         physics.setBodyType(BodyType.DYNAMIC);
         physics.setFixtureDef(new FixtureDef().friction(0f));
@@ -50,7 +52,7 @@ public class SootFactory implements EntityFactory {
         return FXGL.entityBuilder(data)
                 .type(SootType.PLAYER)
                 .view("finalSOOT.gif")
-                .bbox(new HitBox(BoundingShape.box(20,20)))
+                .bbox(new HitBox(BoundingShape.box(20, 20)))
                 .with(physics)
                 .with(new PlayerControl())
                 .with(new CollidableComponent(true))
@@ -59,14 +61,15 @@ public class SootFactory implements EntityFactory {
 
     /**
      * This method spawns an entity of type Obstacle
+     *
      * @param data
      */
     @Spawns("Obstacle")
-    public Entity newObstacle(SpawnData data){
+    public Entity newObstacle(SpawnData data) {
         return FXGL.entityBuilder(data)
                 .from(data)
                 .type(SootType.OBSTACLE)
-                .bbox(new HitBox(BoundingShape.box(data.<Integer>get("width"),data.<Integer>get("height"))))
+                .bbox(new HitBox(BoundingShape.box(data.<Integer>get("width"), data.<Integer>get("height"))))
                 .with(new PhysicsComponent())
                 .collidable()
                 .build();
@@ -74,10 +77,11 @@ public class SootFactory implements EntityFactory {
 
     /**
      * This method spawns an entity of type Door
+     *
      * @param data
      */
     @Spawns("Door")
-    public Entity newDoor(SpawnData data){
+    public Entity newDoor(SpawnData data) {
         return FXGL.entityBuilder(data)
                 .from(data)
                 .type(SootType.DOOR)
@@ -88,7 +92,7 @@ public class SootFactory implements EntityFactory {
 
     }
     @Spawns("Danger")
-    public Entity newDanger(SpawnData data){
+    public Entity newDanger(SpawnData data) {
         return FXGL.entityBuilder(data)
                 .from(data)
                 .type(SootType.DANGER)
@@ -100,14 +104,13 @@ public class SootFactory implements EntityFactory {
 
     /**
      * This method spawns an entity of type Level
+     *
      * @param data
      */
     //TODO:Build2
-    public void newLevel(Spawns data){
+    public void newLevel(Spawns data) {
 
     }
-
-
 
 
 }

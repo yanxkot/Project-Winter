@@ -1,6 +1,6 @@
 package com.example.proj;
 
-public class Questions {
+public class Question {
 
     private static String question;
     private static int answer ;
