@@ -33,6 +33,7 @@ import static com.example.proj.SootType.PLATFORM;
 
 //TODO: add randomization method to generate levels.
 public class SootApp extends GameApplication {
+
     private Stage popupStage;
     private boolean doorCompletion = false;
     int level;
@@ -40,10 +41,9 @@ public class SootApp extends GameApplication {
     int doorAnswer;
     private Entity player;
     private VBox toolBar;
-    //private Alert invalidInputError;
-    //Stage taskStage = new Stage();
-    //Scene taskScene;
-
+    final String RIGHT = "right";
+    final String LEFT = "left";
+    final String JUMP = "jump";
 
     @Override()
     /**
@@ -64,7 +64,7 @@ public class SootApp extends GameApplication {
      * This method initialise the controls of the main character. It assigns a key to a movement
      */
     protected void initInput() {
-        getInput().addAction(new UserAction("left") {
+        getInput().addAction(new UserAction(LEFT) {
             @Override
             protected void onAction() {
                 player.getComponent(PlayerControl.class).left();
@@ -76,7 +76,7 @@ public class SootApp extends GameApplication {
             }
         }, KeyCode.LEFT);
 
-        getInput().addAction(new UserAction("right") {
+        getInput().addAction(new UserAction(RIGHT) {
             @Override
             protected void onAction() {
                 player.getComponent(PlayerControl.class).right();
@@ -88,7 +88,7 @@ public class SootApp extends GameApplication {
             }
         }, KeyCode.RIGHT);
 
-        getInput().addAction(new UserAction("jump") {
+        getInput().addAction(new UserAction(JUMP) {
             @Override
             protected void onActionBegin() {
                 player.getComponent(PlayerControl.class).jump();
@@ -206,12 +206,11 @@ public class SootApp extends GameApplication {
      */
     @Override
     protected void initUI() {
-
-
         toolBar = new VBox();
         Text tool = new Text("Tools");
         Button jumpB = new Button("Jump");
         jumpB.setFocusTraversable(false);
+
         jumpB.setOnAction(event -> {
             GridPane properties = new GridPane();
 
@@ -250,21 +249,17 @@ public class SootApp extends GameApplication {
      * This method opens a Stage
      */
     private void popUp() {
-
         if (popupStage != null && popupStage.isShowing()) {
             return;
         }
 
-
         popupStage = new Stage();
         popupStage.initModality(Modality.APPLICATION_MODAL);
-        popupStage.setTitle("Popup");
-
+        popupStage.setTitle("Pop-up");
 
         VBox popupContent = new VBox();
+
         TextField answerField = new TextField();
-
-
 
         Button closeButton = new Button("Close");
         closeButton.setOnAction(event -> {
@@ -282,17 +277,12 @@ public class SootApp extends GameApplication {
         popupContent.getChildren().addAll(questionDoor, answerField, checkButton, closeButton);
         popupContent.setAlignment(Pos.CENTER);
 
-
         popupContent.setPrefSize(300, 200);
-
-
         Scene popupScene = new Scene(popupContent);
-
-
         popupStage.setScene(popupScene);
-
-
         popupStage.show();
+
+
     }
 
     //TODO: add if and else statement to check validity of answer

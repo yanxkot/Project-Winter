@@ -11,23 +11,23 @@ public class Question {
         answer = 1234;
     }
 
-    public void integral(){
+    public void integral() {
 
     }
 
-    public void logic(){
+    public void logic() {
 
     }
 
-    public void matrix(){
+    public void matrix() {
 
     }
 
-    public void balanceEquations(){
+    public void balanceEquations() {
 
     }
 
-    public void sequence(){
+    public void sequence() {
 
     }
 

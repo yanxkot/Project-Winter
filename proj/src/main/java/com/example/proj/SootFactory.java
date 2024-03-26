@@ -49,6 +49,7 @@ public class SootFactory implements EntityFactory {
         physics.setBodyType(BodyType.DYNAMIC);
         physics.setFixtureDef(new FixtureDef().friction(0f));
         physics.addGroundSensor(new HitBox("GROUND_SENSOR", new Point2D(16, 38), BoundingShape.box(6, 8)));
+
         return FXGL.entityBuilder(data)
                 .type(SootType.PLAYER)
                 .view("finalSOOT.gif")
@@ -91,6 +92,7 @@ public class SootFactory implements EntityFactory {
                 .build();
 
     }
+
     @Spawns("Danger")
     public Entity newDanger(SpawnData data) {
         return FXGL.entityBuilder(data)
