@@ -34,7 +34,6 @@ import static com.example.proj.SootType.PLATFORM;
 //TODO: add randomization method to generate levels.
 public class SootApp extends GameApplication {
     private Stage popupStage;
-
     private boolean doorCompletion = false;
     int level;
     int life;
@@ -58,7 +57,6 @@ public class SootApp extends GameApplication {
         gameSettings.setWidth(800);
         gameSettings.setHeight(360);
         gameSettings.setTitle("Soot(sin)");
-
     }
 
     @Override
@@ -69,7 +67,6 @@ public class SootApp extends GameApplication {
         getInput().addAction(new UserAction("left") {
             @Override
             protected void onAction() {
-                
                 player.getComponent(PlayerControl.class).left();
             }
 
@@ -102,9 +99,6 @@ public class SootApp extends GameApplication {
                 player.getComponent(PlayerControl.class).stop();
             }*/
         }, KeyCode.UP);
-
-        //getInput().addAction(new UserAction("click") {
-        //}, );
     }
 
     @Override
@@ -130,7 +124,10 @@ public class SootApp extends GameApplication {
         lifeView.setTranslateY(10);
         getGameScene().addUINodes(lifeView);
 
-
+        Viewport viewport = getGameScene().getViewport();
+        viewport.setBounds(-1500, 0, 250 * 70, getAppHeight());
+        viewport.bindToEntity(player, getAppWidth()/2, getAppHeight() / 2);
+        viewport.setLazy(true);
 
         //getGameWorld().setLevelFromMap("1plat.tmx");
         //getGameWorld().setLevel(level);
@@ -150,7 +147,6 @@ public class SootApp extends GameApplication {
     }
 
     //TODO: build2 @
-
     /**
      * this method imports the corresponding tmx file from the resources file to the correct level.
      */
@@ -175,7 +171,6 @@ public class SootApp extends GameApplication {
             protected void onCollisionBegin(Entity player, Entity platform) {
                 player.getComponent(PlayerControl.class).stop();
 
-
             }
         });
 
@@ -194,19 +189,17 @@ public class SootApp extends GameApplication {
                     popUp();
                 System.out.println("door");
                 getGameScene().removeUINode(toolBar);
-
             }
         });
+
         physics.addCollisionHandler(new CollisionHandler(SootType.PLAYER, SootType.OBSTACLE) {
             @Override
             protected void onCollisionBegin(Entity player, Entity obstacle) {
                 //to verify collision
                 System.out.println("obstacle");
-
             }
         });
     }
-
 
     /**
      * This method imports a gif file to then initialize to the character.
@@ -216,51 +209,46 @@ public class SootApp extends GameApplication {
 
 
         toolBar = new VBox();
-        Text tool = new Text("tools");
+        Text tool = new Text("Tools");
         Button jumpB = new Button("Jump");
         jumpB.setFocusTraversable(false);
         jumpB.setOnAction(event -> {
-
             GridPane properties = new GridPane();
+
             Text velocityText = new Text("Velocity");
             velocityText.setFill(Color.WHITE);
             TextField velocity = new TextField("Velocity");
             Text angleText = new Text("Angle");
             angleText.setFill(Color.WHITE);
             TextField angle = new TextField("Angle");
+
             //TODO: add input limitations(range)
             addNumericInputValidation(velocity);
             addNumericInputValidation(angle);
+
             Button exit = getUIFactoryService().newButton("x");
             Button jumpAction = new Button("jump");
             jumpAction.setOnAction(event1 ->{
                 player.getComponent(PlayerControl.class).jumpT(Double.parseDouble(velocity.getText()),Double.parseDouble(angle.getText()));
                 getDialogService().onExit();
             });
+
             properties.addRow(0, velocityText, velocity);
             properties.addRow(1, angleText,angle);
             properties.addRow(2, jumpAction);
             properties.setHgap(15);
             getDialogService().showBox("Edit Jump Properties", properties,jumpAction, exit);
-
         });
 
         toolBar.getChildren().addAll(tool,jumpB);
         toolBar.setTranslateX(10);
         toolBar.setTranslateY(10);
         getGameScene().addUINode(toolBar);
-
-
-
-        // */
     }
-
 
     /**
      * This method opens a Stage
      */
-
-
     private void popUp() {
 
         if (popupStage != null && popupStage.isShowing()) {

@@ -2,12 +2,12 @@ package com.example.proj;
 
 public class Question {
 
-    private static String question;
+    private static String premise;
     private static int answer ;
 
 //TODO: add properties to question class
     public static void derivative(){
-        question = "What is the answer? 1234";
+        premise = "What is the answer? 1234";
         answer = 1234;
     }
 
@@ -31,8 +31,8 @@ public class Question {
 
     }
 
-    public static String getQuestion() {
-        return question;
+    public static String getPremise() {
+        return premise;
     }
 
     public static int getAnswer() {
