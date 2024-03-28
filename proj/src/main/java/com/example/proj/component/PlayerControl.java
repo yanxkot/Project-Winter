@@ -16,18 +16,27 @@ public class PlayerControl extends Component {
     private PhysicsComponent physics;
     private TransformComponent position;
     private double speed;
-    int jumps = 1;
+    private int jumps = 1;
     //meters to pixels conversion ratio
     int mtp = 38;
+    @Override
+    public void onAdded(){
+        //this listener resets the number of jumps
+        physics.onGroundProperty().addListener((obs,old, isOnGround)->{
+            if(isOnGround){
+                jumps=1;
+            }
+        });
+    }
 
     /**
      * this method determines the increment when player presses left
      */
 
     public void left() {
-        if (physics.isOnGround()) {
+        //if (physics.isOnGround()) {
             physics.setVelocityX(-50);
-        }
+        //}
         //else if(!physics.isOnGround()) physics.setVelocityX(0);
     }
 
@@ -35,9 +44,9 @@ public class PlayerControl extends Component {
      * this method determines the increment when player presses right
      */
     public void right() {
-        if (physics.isOnGround()) {
+        //if (physics.isOnGround()) {
             physics.setVelocityX(50);
-        }
+        //}
         //else if(!physics.isOnGround()) physics.setVelocityX(0);
     }
 
@@ -46,6 +55,12 @@ public class PlayerControl extends Component {
      */
 
     public void jump() {
+        if (jumps == 0)
+            return;
+        physics.setVelocityY(-300);
+        jumps--;
+    }
+    /*
         if (physics.isOnGround()) {
             jumps = 1;
             //physics.setVelocityY(0);
@@ -60,9 +75,12 @@ public class PlayerControl extends Component {
             physics.setVelocityX(0);
         }
     }
+    */
+
 
     public void jumpT(double velocity, double angle) {
-        physics.setLinearVelocity(mtp * velocity * Math.cos(angle), -mtp * velocity * Math.sin(angle));
+        physics.setVelocityX(mtp * velocity * Math.cos(angle));
+        physics.setVelocityY(-mtp * velocity * Math.sin(angle));
     }
 
     public void stop() {

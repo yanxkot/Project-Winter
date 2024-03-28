@@ -33,7 +33,7 @@ public class SootFactory implements EntityFactory {
                 .type(SootType.PLATFORM)
                 .bbox(new HitBox(BoundingShape.box(data.<Integer>get("width"), data.<Integer>get("height"))))
                 .with(new PhysicsComponent())
-                //.with(new CollidableComponent(true))
+                .collidable()
                 .build();
 
     }
@@ -106,15 +106,7 @@ public class SootFactory implements EntityFactory {
                 .build();
     }
 
-    /**
-     * This method spawns an entity of type Level
-     *
-     * @param data
-     */
-    //TODO:Build2
-    public void newLevel(Spawns data) {
 
-    }
 
 
 }

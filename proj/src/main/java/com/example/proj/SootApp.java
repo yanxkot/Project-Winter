@@ -50,15 +50,7 @@ public class SootApp extends GameApplication {
     final String RIGHT = "right";
     final String LEFT = "left";
     final String JUMP = "jump";
-    /*
-    public Entity getPlayer() {
-        return getGameWorld().getSingleton(SootType.PLAYER);
-    }
-    public PlayerControl getPlayerControl(){
-        return getPlayer().getComponent(PlayerControl.class);
-    }
 
-    @Override()
     /**
      * @param gameSettings this is the main window of the game
      * This method initializes the width, height and title of the game.
@@ -83,26 +75,22 @@ public class SootApp extends GameApplication {
             @Override
             protected void onAction() {
                 player.getComponent(PlayerControl.class).left();
-                //player.getComponent(PlayerControl.class).left();
             }
 
             @Override
             protected void onActionEnd() {
                 player.getComponent(PlayerControl.class).stop();
-                //player.getComponent(PlayerControl.class).stop();
             }
         }, KeyCode.LEFT);
 
         getInput().addAction(new UserAction(RIGHT) {
             @Override
             protected void onAction() {
-                //getPlayerControl().right();
                 player.getComponent(PlayerControl.class).right();
             }
 
             @Override
             protected void onActionEnd() {
-                //getPlayerControl().stop();
                 player.getComponent(PlayerControl.class).stop();
             }
         }, KeyCode.RIGHT);
@@ -110,14 +98,9 @@ public class SootApp extends GameApplication {
         getInput().addAction(new UserAction(JUMP) {
             @Override
             protected void onActionBegin() {
-                //getPlayerControl().jump();
                 player.getComponent(PlayerControl.class).jump();
             }
 
-            /*@Override
-            protected void onActionEnd() {
-                player.getComponent(PlayerControl.class).stop();
-            }*/
         }, KeyCode.UP);
     }
     /**
@@ -136,17 +119,10 @@ public class SootApp extends GameApplication {
      */
     protected void initGame() {
         getGameWorld().addEntityFactory(new SootFactory());
-
-
         player = null;
         nextLevel();
         player = spawn("Player", 50, 50);
-        //player.addComponent(gPlayerControl);
         set("Player", player);
-
-
-
-        //getGameWorld().spawn("platform", 50, 50);
 
         //life count display
         HBox lifeView = new HBox();
@@ -162,38 +138,18 @@ public class SootApp extends GameApplication {
         viewport.setBounds(-1500, 0, 250 * 70, getAppHeight());
         viewport.bindToEntity(player, 50, getAppHeight() / 2);
         viewport.setLazy(true);
-
-
-        //getGameWorld().setLevelFromMap("1plat.tmx");
-        //getGameWorld().setLevel(level);
     }
-
-
-
-/*
-    protected void initGameVars() {
-        level = 1;
-        life = 3;
-    }
-*/
-    //TODO: build2 @
-
-
-
 
     /**
      * This method initializes the game's physics such as gravity. It also handles collision between two entities.
      */
     @Override
     protected void initPhysics() {
-        //PhysicsWorld physics = getPhysicsWorld();
         //one(1) meter ≈ 38 pixels
         //9.81m/s^2 ≈ 372.78 pixels
         getPhysicsWorld().setGravity(0, 372.78);
 
-
-        //TODO: door, not platform
-        getPhysicsWorld().addCollisionHandler(new CollisionHandler(SootType.PLAYER, PLATFORM) {
+         getPhysicsWorld().addCollisionHandler(new CollisionHandler(SootType.PLAYER, PLATFORM) {
             @Override
             protected void onCollisionBegin(Entity player, Entity platform) {
                 player.getComponent(PlayerControl.class).stop();
@@ -213,7 +169,7 @@ public class SootApp extends GameApplication {
             @Override
             protected void onCollisionBegin(Entity player, Entity door) {
                 //to verify collision
-                if (doorCompletion == false)
+                if (!doorCompletion)
                     popUp();
                 System.out.println("door");
 
@@ -253,24 +209,12 @@ public class SootApp extends GameApplication {
     private void initLevel(int levelNumb) {
 
         if (player != null) {
-
             player.getComponent(PhysicsComponent.class).overwritePosition(new Point2D(50, 50));
+            player.getComponent(PhysicsComponent.class).setVelocityX(0);
             player.setZIndex(Integer.MAX_VALUE);
         }
         set("levelTime",0.0);
-            /*
-            getGameWorld().getSingleton(SootType.PLAYER).getComponent(PhysicsComponent.class).overwritePosition(new Point2D(50, 50));
-
-            //player.addComponent(new PlayerControl());
-            player.setZIndex(Integer.MAX_VALUE);
-            //getGameScene().getViewport().bindToEntity(player, getAppWidth()/2 , getAppHeight() / 2);
-        }
-*/
-        //String lev = String.format("%d", getWorldProperties().getInt("level"));
         Level level = FXGL.setLevelFromMap("tmx/Plat" + levelNumb + "Temp.tmx");
-
-
-
 
     }
 
@@ -325,6 +269,8 @@ public class SootApp extends GameApplication {
         if (popupStage != null && popupStage.isShowing()) {
             return;
         }
+        //so the player stays put when changing levels
+        getInput().clearAll();
 
         popupStage = new Stage();
         popupStage.initModality(Modality.APPLICATION_MODAL);
