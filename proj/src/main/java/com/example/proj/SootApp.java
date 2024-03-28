@@ -192,8 +192,13 @@ public class SootApp extends GameApplication {
             @Override
             protected void onCollisionBegin(Entity player, Entity door) {
                 //to verify collision
-                if (doorCompletion == false)
-                    popUp();
+                if (doorCompletion == false) {
+                    try {
+                        popUp();
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
                 System.out.println("door");
                 getGameScene().removeUINode(toolBar);
 
@@ -263,54 +268,21 @@ public class SootApp extends GameApplication {
      */
 
 
-    private void popUp() {
-
-        if (popupStage != null && popupStage.isShowing()) {
-            return;
-        }
-
-
-        popupStage = new Stage();
-        popupStage.initModality(Modality.APPLICATION_MODAL);
-        popupStage.setTitle("Popup");
-
-
-        VBox popupContent = new VBox();
-        TextField answerField = new TextField();
+    private void popUp() throws IOException {
 
 
 
-        Button closeButton = new Button("Close");
-        closeButton.setOnAction(event -> {
-            popupStage.close();
-        });
 
-        Button checkButton = new Button("check answer");
-        checkButton.setOnAction(event -> {
-            doorAnswer = Integer.parseInt(answerField.getText());
-            verifyAnswer();
-        });
 
         Question question = new Question();
         question.derivative();
         System.out.println();
         question.derivativeSolver();
 
-        Label questionDoor = new Label(Question.getQuestion());
-        popupContent.getChildren().addAll(questionDoor, answerField, checkButton, closeButton);
-        popupContent.setAlignment(Pos.CENTER);
 
 
-        popupContent.setPrefSize(300, 200);
 
 
-        Scene popupScene = new Scene(popupContent);
-
-
-        popupStage.setScene(popupScene);
-
-
-        popupStage.show();
     }
 
     //TODO: add if and else statement to check validity of answer

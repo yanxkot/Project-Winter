@@ -1,5 +1,12 @@
 package com.example.proj;
 
+import com.example.proj.controllers.QuestionController;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
+
+import java.io.IOException;
 import java.util.Random;
 
 public class Question {
@@ -13,13 +20,17 @@ public class Question {
 
 
     //TODO: add properties to question class
-    public void derivative() {
+    public void derivative() throws IOException {
+
+
+
         Random random = new Random();
 
 
-
+        String derivative = null;
         String exponent;
         String coefficient;
+        String constant = null;
         double sign;
 
         for (int i = 0; i <= 5; i++) {
@@ -33,21 +44,38 @@ public class Question {
             coefficient = Integer.toString(random.nextInt(50));
             coefficients[i] =coefficient;
 
-            System.out.print(coefficient + "X^" + exponent);
+            derivative = coefficient + "X^" + exponent;
+            System.out.print(derivative);
 
 
             if (sign >= 0 && sign < +0.5) {
                 System.out.print("-");
+                derivative = derivative + "-";
                 signs[i] = "-";
             } else {
                 System.out.print("+");
                 signs[i] = "+";
+                derivative = derivative + "+";
             }
 
 
             if (i == 5)
-                System.out.print(random.nextInt(50));
+                constant = Integer.toString(random.nextInt(5));
+                System.out.print(constant);
+                derivative = derivative + constant;
         }
+
+        Stage stage = new Stage();
+
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/question.fxml"));
+        QuestionController controller = new QuestionController(derivative);
+        loader.setController(controller);
+        Pane root = loader.load();
+
+        Scene scene = new Scene(root,600,600);
+        stage.setScene(scene);
+        stage.alwaysOnTopProperty();
+        stage.show();
     }
 
     public void derivativeSolver(){

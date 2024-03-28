@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Label fx:id="derivativeLbl" layoutX="140.0" layoutY="75.0" prefHeight="51.0" prefWidth="302.0" />
+      <HBox fx:id="hbox" alignment="TOP_CENTER" layoutX="25.0" layoutY="258.0" prefHeight="84.0" prefWidth="532.0" spacing="30.0">
+         <children>
+            <TextField fx:id="textfield1" prefHeight="40.0" prefWidth="39.0" />
+            <TextField fx:id="textfield2" prefHeight="40.0" prefWidth="39.0" />
+            <TextField fx:id="textfield3" prefHeight="40.0" prefWidth="39.0" />
+            <TextField fx:id="textfield4" prefHeight="40.0" prefWidth="39.0" />
+            <TextField fx:id="textfield5" prefHeight="40.0" prefWidth="39.0" />
+            <TextField fx:id="textfield6" prefHeight="40.0" prefWidth="39.0" />
+         </children>
+         <padding>
+            <Insets top="20.0" />
+         </padding>
+      </HBox>
+   </children>
+</Pane>
