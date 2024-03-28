@@ -14,6 +14,7 @@ import com.almasb.fxgl.physics.box2d.dynamics.BodyType;
 import com.almasb.fxgl.physics.box2d.dynamics.FixtureDef;
 import com.example.proj.component.PlayerControl;
 import javafx.geometry.Point2D;
+import static com.almasb.fxgl.dsl.FXGL.*;
 import javafx.scene.paint.Color;
 import com.example.proj.SootType.*;
 
@@ -28,11 +29,11 @@ public class SootFactory implements EntityFactory {
      */
     @Spawns("Platform")
     public Entity newPlatform(SpawnData data) {
-        return FXGL.entityBuilder(data)
+        return entityBuilder(data)
                 .type(SootType.PLATFORM)
                 .bbox(new HitBox(BoundingShape.box(data.<Integer>get("width"), data.<Integer>get("height"))))
                 .with(new PhysicsComponent())
-                .with(new CollidableComponent(true))
+                //.with(new CollidableComponent(true))
                 .build();
 
     }
@@ -50,13 +51,14 @@ public class SootFactory implements EntityFactory {
         physics.setFixtureDef(new FixtureDef().friction(0f));
         physics.addGroundSensor(new HitBox("GROUND_SENSOR", new Point2D(16, 38), BoundingShape.box(6, 8)));
 
-        return FXGL.entityBuilder(data)
+        return entityBuilder(data)
                 .type(SootType.PLAYER)
                 .view("finalSOOT.gif")
                 .bbox(new HitBox(BoundingShape.box(20, 20)))
                 .with(physics)
-                .with(new PlayerControl())
                 .with(new CollidableComponent(true))
+                .with(new IrremovableComponent())
+                .with(new PlayerControl())
                 .build();
     }
 
@@ -67,7 +69,7 @@ public class SootFactory implements EntityFactory {
      */
     @Spawns("Obstacle")
     public Entity newObstacle(SpawnData data) {
-        return FXGL.entityBuilder(data)
+        return entityBuilder(data)
                 .from(data)
                 .type(SootType.OBSTACLE)
                 .bbox(new HitBox(BoundingShape.box(data.<Integer>get("width"), data.<Integer>get("height"))))
@@ -83,7 +85,7 @@ public class SootFactory implements EntityFactory {
      */
     @Spawns("Door")
     public Entity newDoor(SpawnData data) {
-        return FXGL.entityBuilder(data)
+        return entityBuilder(data)
                 .from(data)
                 .type(SootType.DOOR)
                 .bbox(new HitBox(BoundingShape.box(data.<Integer>get("width"), data.<Integer>get("height"))))
@@ -95,7 +97,7 @@ public class SootFactory implements EntityFactory {
 
     @Spawns("Danger")
     public Entity newDanger(SpawnData data) {
-        return FXGL.entityBuilder(data)
+        return entityBuilder(data)
                 .from(data)
                 .type(SootType.DANGER)
                 .bbox(new HitBox(BoundingShape.box(data.<Integer>get("width"), data.<Integer>get("height"))))
