@@ -6,17 +6,20 @@ import com.almasb.fxgl.app.scene.Viewport;
 import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.entity.level.Level;
+import com.almasb.fxgl.input.Input;
 import com.almasb.fxgl.physics.CollisionHandler;
 import com.almasb.fxgl.physics.PhysicsWorld;
 import com.example.proj.component.PlayerControl;
 import com.almasb.fxgl.input.UserAction;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Point2D;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
+import javafx.scene.input.MouseButton;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
@@ -44,6 +47,8 @@ public class SootApp extends GameApplication {
     final String RIGHT = "right";
     final String LEFT = "left";
     final String JUMP = "jump";
+    Label coordinates;
+    int cursorX, cursorY = 0;
 
     @Override()
     /**
@@ -99,6 +104,22 @@ public class SootApp extends GameApplication {
                 player.getComponent(PlayerControl.class).stop();
             }*/
         }, KeyCode.UP);
+
+        getInput().addAction(new UserAction("Coordinates") {
+            @Override
+            protected void onActionBegin() {
+                cursorX = (int) getInput().getMouseXWorld();
+                cursorY = (int) getInput().getMouseYWorld();
+
+                String s = cursorX + ", " + cursorY;
+                coordinates.setText(s);
+                coordinates.setTranslateX(cursorX);
+                coordinates.setTranslateY(cursorY);
+            }
+        }, MouseButton.SECONDARY);
+        // on right click
+
+
     }
 
     @Override
@@ -242,7 +263,11 @@ public class SootApp extends GameApplication {
         toolBar.getChildren().addAll(tool,jumpB);
         toolBar.setTranslateX(10);
         toolBar.setTranslateY(10);
+
+        coordinates = new Label();
+
         getGameScene().addUINode(toolBar);
+        getGameScene().addUINode(coordinates);
     }
 
     /**
