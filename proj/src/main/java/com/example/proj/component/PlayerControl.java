@@ -89,18 +89,10 @@ public class PlayerControl extends Component {
      * this method checks if the player is within bounds
      */
     private void checkForBounds() {
-        if (entity.getX() < 0) {
+        if (entity.getX() < 0||entity.getX() >= getAppWidth()||entity.getY() < 0||entity.getY() >= getAppHeight()) {
             die();
         }
-        if (entity.getX() >= getAppWidth()) {
-            die();
-        }
-        if (entity.getY() < 0) {
-            die();
-        }
-        if (entity.getY() >= getAppHeight()) {
-            die();
-        }
+
     }
 
     @Override
